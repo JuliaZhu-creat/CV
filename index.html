@@ -1,0 +1,2304 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+
+<meta charset="UTF-8">
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport">
+<meta content="朱艳 · 品牌市场经理/主管 — 7 年跨国上市企业品牌营销经验，兼具设计审美与市场运营思维的复合型品牌人。" name="description">
+<meta content="#f7f5f2" name="theme-color">
+<title>朱艳 · 品牌市场经理/主管 | Julia Zhu · Brand Marketing Manager</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Playfair+Display:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   朱艳 · 个人简历网站  —  样式表
+   --------------------------------------------------------------------------
+   视觉体系：暖调编辑式（Warm Editorial）
+     · 画布    暖米白 #f7f5f2　　内容面 纯白 #ffffff
+     · 主色    砖红 #cb5734　　（唯一行动色：强调、指示条、按钮、数据）
+     · 辅色    赭金 #9d7d58　　（英文小标、序号、次级标签）
+     · 排版    拉丁衬线大字（Playfair Display / Georgia）+ 幽灵数字 + 3px 砖红短线
+     · 圆角    2 / 5 / 8 / 12px —— 小而锐利，编辑感的克制
+     · 分隔    1px 发丝线 + 砖红渐隐横线
+     · 原则    全站不使用黑色块；深色仅用于文字与极淡遮罩
+   目录：
+     01 变量与基础        02 画布与装饰      03 左侧导航
+     04 语言切换          05 版面分隔与标题   06 通用组件
+     07 图片上传槽位      08 首页            09 关于我 / 教育
+     10 编辑式行          11 作品集          12 技能
+     13 联系与页脚        14 弹层 / 提示      15 响应式
+     16 无障碍
+   ========================================================================== */
+
+
+/* ---------- 01 变量与基础 ---------- */
+:root{
+  /* 主色 · 砖红 */
+  --brick:#cb5734;
+  --brick-deep:#b04a2b;
+  --brick-light:#e08a5f;
+  --brick-tint:#fbf1ec;          /* 极浅砖红底 */
+  --brick-tint-2:#f7e7df;
+  --brick-line:rgba(203,87,52,.24);
+  --brick-line-soft:rgba(203,87,52,.14);
+
+  /* 辅色 · 赭金 */
+  --gold:#9d7d58;
+  --gold-tint:#f6f1e9;
+  --gold-line:rgba(157,125,88,.26);
+
+  /* 中性面 */
+  --canvas:#f7f5f2;              /* 暖米白画布 */
+  --surface:#ffffff;             /* 卡片面 */
+  --ink:#2e2e2e;                 /* 正文主色（深灰，非纯黑）*/
+  --ink-2:#5e5855;               /* 次级文字 */
+  --muted:#938b85;               /* 弱化文字 */
+  --muted-2:#ada6a0;             /* 极弱文字 */
+  --line:#e9e6e1;                /* 发丝线 */
+  --line-2:#dcd7d0;              /* 稍强分隔线 */
+
+  /* 形状（编辑式小圆角） */
+  --r-xs:2px;
+  --r-sm:5px;
+  --r-md:8px;
+  --r-lg:12px;
+  --pill:999px;
+
+  /* 节奏 */
+  --sbw:256px;
+  --ease:cubic-bezier(.22,1,.36,1);
+
+  /* 字体：拉丁衬线用于大字与英文小标；中文走系统无衬线保证稳定 */
+  --serif:"Playfair Display",Georgia,"Songti SC","STSong","Times New Roman",serif;
+  --font:"Inter",-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",
+         "PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+
+html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:var(--canvas);
+  color:var(--ink);
+  font-family:var(--font);
+  font-size:15px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  font-variant-numeric:tabular-nums;
+}
+
+h1,h2,h3,h4{margin:0;font-weight:600;}
+p{margin:0;}
+a{color:inherit;}
+img{display:block;max-width:100%;}
+button{font:inherit;color:inherit;}
+ul,ol{margin:0;padding:0;}
+
+::selection{background:rgba(203,87,52,.18);}
+:focus-visible{outline:2px solid var(--brick);outline-offset:3px;border-radius:var(--r-xs);}
+
+
+/* ---------- 02 画布与装饰 ---------- */
+/* 极淡斜纹，给纯色画布一点纸感 */
+.grain{
+  position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.5;
+  background-image:repeating-linear-gradient(
+    -45deg,
+    rgba(157,125,88,.05) 0 1px,
+    transparent 1px 5px
+  );
+}
+
+/* 首页右上角暖色光晕 */
+.glow{
+  position:absolute;top:-80px;right:-120px;width:560px;height:560px;z-index:0;
+  border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(203,87,52,.16) 0%,rgba(203,87,52,0) 68%);
+}
+
+
+/* ---------- 03 左侧导航（纯白 + 砖红点缀，无黑色） ---------- */
+.sidebar{
+  position:fixed;top:0;left:0;bottom:0;width:var(--sbw);z-index:30;
+  display:flex;flex-direction:column;
+  padding:28px 20px 22px;
+  background:var(--surface);
+  border-right:1px solid var(--line);
+}
+
+.sidebar__head{padding-bottom:22px;border-bottom:1px solid var(--line);}
+
+.brand{display:flex;align-items:center;gap:12px;cursor:pointer;}
+.brand__mono{
+  width:42px;height:42px;flex:none;border-radius:var(--r-sm);
+  display:grid;place-items:center;
+  background:linear-gradient(135deg,#da6841,#b8452a);
+  color:#fff;font-size:17px;font-weight:600;
+  transition:transform .55s var(--ease),border-radius .55s var(--ease);
+}
+.brand:hover .brand__mono{transform:rotate(-5deg) scale(1.05);border-radius:var(--r-md);}
+.brand__meta{display:flex;flex-direction:column;gap:3px;min-width:0;}
+.brand__meta strong{font-size:15px;font-weight:600;letter-spacing:-.01em;}
+.brand__meta span{
+  font-size:11px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--gold);
+}
+
+/* 导航列表 */
+.nav{position:relative;flex:1;display:flex;flex-direction:column;gap:3px;margin-top:22px;}
+
+/* 滑动底衬：随悬停 / 选中滑动，并持续做有机形变 */
+.nav__blob{
+  position:absolute;left:0;right:0;height:44px;top:0;
+  opacity:0;z-index:1;pointer-events:none;
+  background:var(--brick-tint);
+  transition:top .5s var(--ease),height .5s var(--ease),opacity .35s ease;
+  animation:blobMorph 9s ease-in-out infinite;
+}
+.nav__blob.is-on{opacity:1;}
+@keyframes blobMorph{
+  0%  {border-radius:5px 9px 6px 10px;}
+  25% {border-radius:10px 5px 11px 6px;}
+  50% {border-radius:6px 11px 5px 9px;}
+  75% {border-radius:11px 6px 10px 5px;}
+  100%{border-radius:5px 9px 6px 10px;}
+}
+
+.nav__item{
+  position:relative;z-index:2;
+  display:flex;align-items:center;gap:12px;
+  padding:11px 14px;
+  text-decoration:none;font-size:15.5px;font-weight:500;letter-spacing:-.01em;
+  color:var(--ink);
+  transform-origin:left center;
+  transition:transform .45s var(--ease),color .3s ease;
+}
+/* 3px 砖红指示条：悬停 / 选中时长出 */
+.nav__item::before{
+  content:"";position:absolute;left:0;top:50%;width:3px;height:0;
+  background:var(--brick);border-radius:2px;
+  transform:translateY(-50%);
+  transition:height .38s var(--ease);
+}
+.nav__item:hover::before,
+.nav__item.is-active::before{height:100%;}
+
+.nav__num{
+  font-family:var(--serif);font-size:11px;color:var(--gold);
+  letter-spacing:.06em;
+  transition:color .3s ease,transform .45s var(--ease);
+}
+
+/* 悬停：轻微右移 + 放大，制造灵动感 */
+.nav__item:hover{transform:translateX(5px) scale(1.035);color:var(--brick);}
+.nav__item:hover .nav__num{color:var(--brick);transform:scale(1.1);}
+.nav__item:active{transform:translateX(3px) scale(.995);}
+.nav__item.is-active{color:var(--brick);font-weight:600;}
+.nav__item.is-active .nav__num{color:var(--brick);}
+
+/* 侧栏底部状态 */
+.sidebar__foot{padding-top:16px;border-top:1px solid var(--line);}
+.status{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink-2);}
+.status__dot{
+  width:7px;height:7px;border-radius:50%;background:var(--brick);flex:none;
+  box-shadow:0 0 0 0 rgba(203,87,52,.45);animation:ping 2.4s ease-out infinite;
+}
+@keyframes ping{
+  0%{box-shadow:0 0 0 0 rgba(203,87,52,.42);}
+  70%{box-shadow:0 0 0 8px rgba(203,87,52,0);}
+  100%{box-shadow:0 0 0 0 rgba(203,87,52,0);}
+}
+.side-contact{display:flex;align-items:center;gap:8px;margin-top:9px;font-size:12.5px;flex-wrap:wrap;}
+.side-contact a{color:var(--muted);text-decoration:none;transition:color .25s;}
+.side-contact a:hover{color:var(--brick);}
+.side-contact .dot{width:3px;height:3px;border-radius:50%;background:var(--line-2);}
+
+
+/* ---------- 04 语言切换（右上角常驻，砖红描边） ---------- */
+.langbar{
+  position:fixed;top:22px;right:26px;z-index:60;
+  display:flex;overflow:hidden;
+  border:1px solid var(--brick);border-radius:var(--r-sm);
+  background:var(--surface);
+  box-shadow:0 2px 10px rgba(203,87,52,.12);
+}
+/* 首次进入呼吸光圈，引导注意 */
+.langbar.is-attention{animation:langPulse 2.6s ease-out 3;}
+@keyframes langPulse{
+  0%  {box-shadow:0 2px 10px rgba(203,87,52,.12),0 0 0 0 rgba(203,87,52,.3);}
+  70% {box-shadow:0 2px 10px rgba(203,87,52,.14),0 0 0 12px rgba(203,87,52,0);}
+  100%{box-shadow:0 2px 10px rgba(203,87,52,.12),0 0 0 0 rgba(203,87,52,0);}
+}
+.langbar__btn{
+  border:0;background:transparent;cursor:pointer;
+  padding:8px 18px;
+  font-size:13px;font-weight:600;letter-spacing:.02em;color:var(--brick);
+  transition:background .3s ease,color .3s ease;
+}
+.langbar__btn:hover{background:var(--brick-tint);}
+.langbar__btn.is-active{background:var(--brick);color:#fff;}
+
+/* 英文版下姓名已是拉丁字母，避免与下方重复 */
+body[data-lang="en"] .hero__en{display:none;}
+
+/* 英文版下板块标题本身已是英文，隐藏配套的英文小标，避免「About Me / About Me」重复 */
+body[data-lang="en"] .sec-head__en,
+body[data-lang="en"] .sub-title__en{display:none;}
+
+/* 语言切换时内容平滑淡出淡入 */
+.pane,.sidebar{transition:opacity .24s ease;}
+body.lang-switching .pane,
+body.lang-switching .sidebar{opacity:.3;}
+
+
+/* ---------- 05 版面分隔与标题 ---------- */
+.pane{
+  margin-left:var(--sbw);
+  height:100vh;overflow-y:auto;overflow-x:hidden;
+  overscroll-behavior:contain;
+  scroll-behavior:smooth;
+  scroll-snap-type:y proximity;
+  scroll-padding-top:12px;
+}
+.pane.no-snap{scroll-snap-type:none;}
+
+.pane__inner{
+  position:relative;
+  max-width:1000px;margin:0 auto;
+  padding:96px 48px 80px;
+}
+
+.section{scroll-margin-top:12px;scroll-snap-align:start;padding-block:56px;}
+.section:first-child{padding-top:24px;}
+
+/* 板块之间：砖红渐隐横线 */
+.section + .section{position:relative;border-top:1px solid var(--line);}
+.section + .section::after{
+  content:"";position:absolute;top:-1px;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,rgba(203,87,52,0),var(--brick-line) 22%,var(--brick-line) 78%,rgba(203,87,52,0));
+}
+
+/* 板块标题：幽灵数字 + 赭金英文小标 + 3px 砖红短线 */
+.sec-head{position:relative;margin-bottom:36px;}
+.sec-head__num{
+  position:absolute;left:-6px;top:50%;transform:translateY(-50%);
+  font-family:var(--serif);font-weight:700;font-size:92px;line-height:1;
+  letter-spacing:.04em;color:var(--brick);opacity:.085;
+  pointer-events:none;user-select:none;white-space:nowrap;
+}
+.sec-head__body{position:relative;z-index:1;}
+.sec-head__en{
+  display:block;
+  font-family:var(--serif);font-size:11px;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--gold);
+}
+.sec-head h2{
+  margin-top:7px;
+  font-size:clamp(24px,3vw,32px);letter-spacing:-.028em;line-height:1.15;
+}
+.sec-head__bar{display:block;width:40px;height:3px;background:var(--brick);margin-top:15px;}
+
+/* 二级小标题（教育履历等） */
+.sub-block{margin-top:56px;}
+.sub-title{
+  display:flex;align-items:baseline;gap:12px;
+  font-size:17px;letter-spacing:-.015em;margin-bottom:6px;
+}
+.sub-title__en{
+  font-family:var(--serif);font-style:normal;font-size:10.5px;
+  letter-spacing:.24em;text-transform:uppercase;color:var(--gold);
+}
+
+
+/* ---------- 06 通用组件 ---------- */
+.chip{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 15px;border-radius:var(--r-sm);
+  background:var(--surface);border:1px solid var(--brick-line);
+  text-decoration:none;color:var(--brick);font-size:13px;white-space:nowrap;
+  transition:transform .35s var(--ease),border-color .3s,background .3s;
+}
+.chip em{
+  font-family:var(--serif);font-style:normal;font-size:10px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--gold);
+}
+.chip:hover{transform:translateY(-2px);border-color:var(--brick);background:var(--brick-tint);}
+.chip--static{cursor:default;}
+.chip--static:hover{transform:none;background:var(--surface);border-color:var(--brick-line);}
+
+.badge{
+  font-family:var(--serif);font-size:10px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 9px;border-radius:var(--r-xs);
+  background:var(--brick-tint);color:var(--brick);border:1px solid var(--brick-line);
+}
+
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px;}
+.tags span{
+  padding:5px 12px;border-radius:var(--r-sm);
+  background:var(--surface);border:1px solid var(--gold-line);
+  font-size:12px;color:var(--gold);
+  transition:transform .35s var(--ease),border-color .3s,color .3s,background .3s;
+}
+.tags span:hover{transform:translateY(-2px);border-color:var(--brick);color:var(--brick);background:var(--brick-tint);}
+
+.textlink{
+  display:inline-flex;align-items:center;gap:6px;
+  color:var(--brick);text-decoration:none;font-size:13px;font-weight:500;
+}
+.textlink i{font-style:normal;transition:transform .35s var(--ease);}
+.textlink:hover i{transform:translateX(4px);}
+
+/* 要点清单：替代大段文字的核心武器 */
+.kp{list-style:none;display:grid;gap:8px;margin-top:14px;}
+.kp li{
+  position:relative;padding-left:16px;
+  font-size:13.5px;line-height:1.62;color:var(--ink-2);
+}
+.kp li::before{
+  content:"";position:absolute;left:0;top:8px;
+  width:5px;height:5px;border-radius:50%;
+  background:var(--brick);opacity:.5;
+}
+.kp b{color:var(--brick);font-weight:600;}
+
+/* 结果条 */
+.result{
+  display:flex;gap:14px;align-items:baseline;flex-wrap:wrap;
+  margin-top:18px;padding:13px 16px;border-radius:var(--r-sm);
+  background:var(--brick-tint);border-left:3px solid var(--brick);
+}
+.result__k{
+  font-family:var(--serif);font-size:10px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--brick);white-space:nowrap;
+}
+.result__v{font-size:13.5px;color:var(--ink-2);}
+.result__v b{color:var(--brick);font-weight:600;}
+
+/* 滚动淡入 */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .8s var(--ease),transform .8s var(--ease);}
+.reveal.is-in{opacity:1;transform:none;}
+
+
+/* ---------- 07 图片上传槽位 ---------- */
+.slot{
+  position:relative;display:block;overflow:hidden;cursor:pointer;
+  background:var(--surface);
+  border:1px dashed var(--line-2);
+  border-radius:var(--r-md);
+  transition:border-color .3s,background .3s,transform .5s var(--ease);
+}
+.slot:hover{border-color:var(--brick);background:var(--brick-tint);}
+.slot img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity .5s ease,transform .8s var(--ease);
+}
+.slot:hover img{transform:scale(1.02);}
+.slot.has-img{border-style:solid;border-color:var(--line);background:#efece7;}
+.slot.has-img img{opacity:1;}
+
+.slot__ph{
+  position:absolute;inset:0;z-index:2;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:9px;padding:12px;text-align:center;
+  font-size:12.5px;color:var(--muted);line-height:1.5;
+  transition:opacity .3s ease;
+}
+.slot__ph svg{width:26px;height:26px;fill:currentColor;opacity:.45;}
+.slot__big{font-size:13.5px;font-weight:500;color:var(--ink-2);}
+.slot__small{font-size:11.5px;color:var(--muted);}
+.slot.has-img .slot__ph{opacity:0;pointer-events:none;}
+
+/* 悬停浮出的「更换图片」*/
+.slot__act{
+  position:absolute;left:50%;bottom:12px;z-index:4;
+  transform:translate(-50%,10px);opacity:0;
+  padding:6px 14px;border-radius:var(--r-sm);
+  background:var(--surface);color:var(--brick);
+  font-size:11.5px;font-weight:500;white-space:nowrap;
+  border:1px solid var(--brick-line);
+  box-shadow:0 4px 14px rgba(70,45,35,.14);
+  transition:opacity .3s ease,transform .4s var(--ease);
+  pointer-events:none;
+}
+.slot.has-img:hover .slot__act{opacity:1;transform:translate(-50%,0);}
+
+/* 移除图片 */
+.slot__del{
+  position:absolute;top:9px;right:9px;z-index:5;
+  width:24px;height:24px;border-radius:50%;
+  display:none;place-items:center;
+  background:rgba(70,45,35,.58);color:#fff;font-size:15px;line-height:1;
+  transition:background .25s;
+}
+.slot.has-img:hover .slot__del{display:grid;}
+.slot__del:hover{background:var(--brick);}
+
+/* 拖拽上传高亮 */
+.slot.is-dragover{border-color:var(--brick);background:var(--brick-tint-2);}
+.block.is-dragover{outline:2px dashed var(--brick-line);outline-offset:8px;border-radius:var(--r-md);}
+
+/* 形态变体 */
+/* 双层环：内发丝线 + 外砖红细圈（box-shadow 不受 overflow 裁切） */
+.slot--circle{
+  width:164px;height:164px;border-radius:50%;flex:none;
+  border:1px solid var(--line);
+  box-shadow:0 0 0 10px var(--canvas),0 0 0 11px var(--brick-line);
+}
+.slot--logo{
+  width:54px;height:54px;flex:none;border-radius:var(--r-sm);
+  border-color:var(--brick-line);
+}
+.slot--logo .slot__ph{font-size:10px;gap:0;line-height:1.25;}
+.slot--qr{width:210px;height:210px;border-radius:var(--r-sm);margin:20px auto 0;}
+.slot--banner{width:100%;aspect-ratio:16/9;border-radius:var(--r-sm);}
+.slot--cover{aspect-ratio:16/10;border:0;border-bottom:1px dashed var(--line-2);border-radius:0;}
+.slot--cover.has-img{border-bottom-color:transparent;}
+
+/* 批量上传按钮 */
+.batch{
+  display:inline-flex;align-items:center;gap:7px;
+  margin-top:14px;padding:7px 14px;
+  border:1px solid var(--brick-line);border-radius:var(--r-sm);
+  background:var(--surface);color:var(--brick);
+  font-size:12.5px;font-weight:500;cursor:pointer;
+  transition:background .3s,border-color .3s,transform .35s var(--ease);
+}
+.batch svg{width:14px;height:14px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+.batch:hover{background:var(--brick-tint);border-color:var(--brick);transform:translateY(-2px);}
+.batch:active{transform:scale(.97);}
+
+
+/* ---------- 08 首页 ---------- */
+.hero{position:relative;z-index:1;}
+.hero__grid{display:flex;align-items:center;gap:44px;}
+
+.hero__id{flex:1;min-width:0;}
+.hero__eyebrow{
+  font-family:var(--serif);font-size:10.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--gold);
+}
+.hero__name{
+  margin-top:14px;
+  font-size:clamp(34px,5vw,52px);letter-spacing:-.04em;line-height:1.04;font-weight:600;
+}
+.hero__en{
+  margin-top:10px;
+  font-family:var(--serif);font-size:13px;letter-spacing:.34em;
+  text-transform:uppercase;color:var(--brick);
+}
+/* 砖红渐隐横线 */
+.hero__rule{
+  display:block;width:100%;height:1px;margin:22px 0 20px;
+  background:linear-gradient(90deg,var(--brick),rgba(203,87,52,.28) 32%,rgba(203,87,52,0));
+}
+.hero__target{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+.hero__target-label{
+  font-family:var(--serif);font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--gold);white-space:nowrap;
+}
+.hero__target-value{font-size:18px;font-weight:600;letter-spacing:-.02em;color:var(--brick);}
+.hero__loc{margin-top:12px;font-size:13px;color:var(--muted);}
+
+.hero__contact{
+  display:flex;flex-wrap:wrap;gap:9px;margin-top:34px;padding-top:26px;
+  border-top:1px solid var(--line);
+}
+
+/* 打字机（白底 + 砖红左线，无黑色块） */
+.typewriter{
+  position:relative;overflow:hidden;
+  margin-top:20px;padding:32px 34px;
+  background:var(--surface);
+  border:1px solid var(--line);border-left:3px solid var(--brick);
+  border-radius:var(--r-sm);
+}
+.typewriter__quote{
+  position:absolute;top:-4px;left:14px;
+  font-family:var(--serif);font-size:82px;line-height:1;
+  color:var(--brick);opacity:.12;
+}
+.typewriter__text{
+  position:relative;min-height:1.45em;
+  font-size:clamp(19px,2.6vw,27px);font-weight:600;
+  letter-spacing:-.026em;line-height:1.42;color:var(--ink);
+}
+.typewriter__caret{
+  display:inline-block;width:2px;height:1.02em;margin-left:3px;vertical-align:-.13em;
+  background:var(--brick);animation:caretBlink 1s steps(1) infinite;
+}
+@keyframes caretBlink{0%,49%{opacity:1;}50%,100%{opacity:0;}}
+.typewriter__sub{
+  display:block;margin-top:16px;
+  font-family:var(--serif);font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--gold);
+}
+
+/* 关键数据：细线分栏（编辑式，不用卡片） */
+.stats{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  margin-top:34px;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+}
+.stat{
+  position:relative;padding:26px 18px 24px;
+  border-right:1px solid var(--line);
+  transition:background .4s ease;
+}
+.stat:last-child{border-right:0;}
+.stat:hover{background:var(--brick-tint);}
+.stat b{
+  display:block;
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(26px,3vw,34px);letter-spacing:-.03em;line-height:1;color:var(--brick);
+}
+.stat b span{font-size:.55em;margin-left:1px;}
+.stat em{
+  display:block;margin-top:10px;font-style:normal;
+  font-size:11.5px;letter-spacing:.04em;line-height:1.5;color:var(--gold);
+}
+
+.scroll-hint{
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  margin-top:38px;
+  font-family:var(--serif);font-size:10.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--muted-2);
+}
+.scroll-hint i{
+  width:1px;height:30px;
+  background:linear-gradient(180deg,var(--brick-line),transparent);
+  animation:hintDrop 2.4s var(--ease) infinite;
+}
+@keyframes hintDrop{
+  0%{opacity:0;transform:scaleY(.3);transform-origin:top;}
+  40%{opacity:1;transform:scaleY(1);}
+  100%{opacity:0;transform:scaleY(.3);transform-origin:bottom;}
+}
+
+
+/* ---------- 09 / 10 编辑式行（关于我 / 教育 / 工作 / 项目） ---------- */
+.rows{display:flex;flex-direction:column;border-top:1px solid var(--line);}
+
+.row{
+  position:relative;
+  display:flex;gap:22px;align-items:flex-start;
+  padding:28px 0;
+  border-bottom:1px solid var(--line);
+  transition:background .45s ease;
+}
+.row:hover{background:rgba(255,255,255,.66);}
+
+/* 幽灵字母 A / B / C ··· */
+.row__ghost{
+  position:absolute;left:-2px;top:50%;transform:translateY(-50%);
+  font-family:var(--serif);font-weight:700;font-size:64px;line-height:1;
+  color:var(--brick);opacity:.08;
+  pointer-events:none;user-select:none;
+  transition:opacity .5s ease;
+}
+.row:hover .row__ghost{opacity:.14;}
+
+/* 项目行用的序号方块：不用时保持整洁，此处保留定义备扩展 */
+
+.row__body{flex:1;min-width:0;position:relative;z-index:1;}
+.row__top{display:flex;align-items:center;gap:11px;flex-wrap:wrap;}
+.row__top h3{font-size:18px;letter-spacing:-.022em;line-height:1.3;}
+.row__top h4{font-size:17px;letter-spacing:-.02em;line-height:1.3;}
+.row__date{
+  margin-left:auto;
+  font-family:var(--serif);font-size:12px;letter-spacing:.04em;
+  color:var(--muted);white-space:nowrap;
+}
+.row__prog{margin-top:6px;font-size:13.5px;color:var(--ink-2);}
+.row__note{margin-top:6px;font-size:12.5px;line-height:1.6;color:var(--muted);}
+
+/* 教育行：不加幽灵字母，用校徽 + 右侧年份 */
+.rows--edu .row{align-items:center;}
+.rows--edu .row__top h4{font-size:16.5px;}
+
+/* 关于我行：幽灵字母升级为左侧栏位，成为清晰的版面标记 */
+.rows--about .row__ghost{
+  position:static;flex:none;width:46px;margin-top:-8px;
+  font-size:60px;opacity:.2;
+}
+.rows--about .row:hover .row__ghost{opacity:.34;}
+
+
+/* ---------- 11 作品集 ---------- */
+.block{margin-top:52px;}
+.block:first-of-type{margin-top:0;}
+
+.block__head{position:relative;margin-bottom:20px;}
+.block__tag{
+  font-family:var(--serif);font-size:10.5px;font-weight:600;
+  letter-spacing:.26em;text-transform:uppercase;color:var(--gold);
+}
+.block__head h3{margin-top:9px;font-size:20px;letter-spacing:-.026em;}
+.block__head p{margin-top:8px;font-size:13px;color:var(--muted);}
+.block__head b{color:var(--brick);font-weight:600;}
+
+/* Part 01 新媒体作品 · 三张推文卡 */
+.articles{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.art-card{
+  display:flex;flex-direction:column;overflow:hidden;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);
+  transition:transform .5s var(--ease),border-color .35s,box-shadow .5s var(--ease);
+}
+.art-card:hover{transform:translateY(-5px);border-color:var(--brick-line);box-shadow:0 12px 30px rgba(70,45,35,.07);}
+.art-card__body{display:flex;flex-direction:column;flex:1;padding:18px 20px 22px;}
+.art-card__acct{
+  align-self:flex-start;padding:4px 10px;border-radius:var(--r-xs);
+  background:var(--gold-tint);border:1px solid var(--gold-line);
+  font-size:10.5px;font-weight:600;letter-spacing:.04em;color:var(--gold);
+}
+.art-card h4{margin-top:13px;font-size:14.5px;line-height:1.55;letter-spacing:-.012em;}
+.art-card__date{
+  margin-top:10px;font-family:var(--serif);font-size:11.5px;
+  letter-spacing:.06em;color:var(--muted);
+}
+.art-card .textlink{margin-top:auto;padding-top:16px;}
+
+.note-strip{
+  display:flex;gap:16px;align-items:baseline;flex-wrap:wrap;
+  margin-top:18px;padding:16px 20px;border-radius:var(--r-sm);
+  background:var(--gold-tint);border-left:3px solid var(--gold);
+}
+.note-strip__k{
+  font-family:var(--serif);font-size:10px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--gold);white-space:nowrap;
+}
+.note-strip p{font-size:13px;color:var(--ink-2);line-height:1.62;}
+
+/* Part 02 设计作品 · 12 栅格大小图混排 */
+.mosaic{
+  display:grid;grid-template-columns:repeat(12,1fr);
+  grid-auto-rows:96px;gap:14px;
+}
+.mosaic .slot{border-radius:var(--r-sm);}
+.m-6x3{grid-column:span 6;grid-row:span 3;}
+.m-6x2{grid-column:span 6;grid-row:span 2;}
+.m-3x1{grid-column:span 3;grid-row:span 1;}
+.m-4x2{grid-column:span 4;grid-row:span 2;}
+.m-3x1 .slot__ph,.m-4x2 .slot__ph{font-size:11.5px;}
+
+/* AI 设计 · 商单中选（暖色强调，非深色块） */
+.ai-feature{
+  display:grid;grid-template-columns:300px 1fr;gap:30px;align-items:center;
+  margin-top:22px;padding:26px;border-radius:var(--r-sm);
+  background:var(--brick-tint);border:1px solid var(--brick-line);
+}
+.ai-feature__img{aspect-ratio:16/10;border-radius:var(--r-sm);background:var(--surface);border-color:var(--brick-line);}
+.ai-feature__tag{
+  font-family:var(--serif);font-size:10px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--brick);
+}
+.ai-feature h4{margin-top:11px;font-size:19px;letter-spacing:-.024em;}
+.ai-feature .kp li{color:var(--ink-2);}
+.ai-feature .textlink{margin-top:18px;}
+
+/* Part 03 品宣物料 · 一版面多图 */
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.sq{aspect-ratio:1;border-radius:var(--r-sm);}
+.sq .slot__ph{font-size:11.5px;}
+
+.source-link{
+  display:inline-flex;align-items:center;gap:8px;margin-top:20px;
+  padding:10px 18px;border-radius:var(--r-sm);
+  border:1px solid var(--brick-line);background:var(--surface);color:var(--brick);
+  text-decoration:none;font-size:13px;font-weight:500;
+  transition:transform .35s var(--ease),background .3s;
+}
+.source-link i{font-style:normal;transition:transform .35s var(--ease);}
+.source-link:hover{background:var(--brick-tint);transform:translateY(-2px);}
+.source-link:hover i{transform:translateX(4px);}
+
+
+/* ---------- 12 技能 ---------- */
+.skill-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.skill-card{
+  padding:26px 26px 28px;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);
+  transition:border-color .35s,box-shadow .5s var(--ease);
+}
+.skill-card:hover{border-color:var(--brick-line);box-shadow:0 10px 26px rgba(70,45,35,.06);}
+.skill-card h4{font-size:14.5px;letter-spacing:-.01em;}
+.skill-card h4 + *{margin-top:18px;}
+.skill-card h4.mt{margin-top:26px;}
+
+.bars{display:grid;gap:13px;}
+.bar{display:flex;align-items:center;gap:14px;font-size:12.5px;color:var(--ink-2);}
+.bar span{width:104px;flex:none;}
+.bar i{position:relative;flex:1;height:3px;border-radius:var(--pill);background:var(--line);overflow:hidden;}
+.bar i::after{
+  content:"";position:absolute;inset:0 auto 0 0;width:0;border-radius:var(--pill);
+  background:linear-gradient(90deg,var(--brick),var(--brick-light));
+  transition:width 1.1s var(--ease);
+}
+.is-in .bar i::after{width:var(--w);}
+
+.skill-note{font-size:13px;color:var(--muted);line-height:1.7;}
+
+/* AI 卡：赭金暖底 */
+.skill-card--ai{background:var(--gold-tint);border-color:var(--gold-line);}
+.skill-card--ai:hover{border-color:var(--gold);}
+.skill-card__tag{
+  font-family:var(--serif);font-size:10px;font-weight:600;
+  letter-spacing:.24em;text-transform:uppercase;color:var(--gold);
+}
+.skill-card--ai h4{margin-top:11px;font-size:17px;}
+.skill-card--ai .kp{margin-top:13px;}
+.skill-card--ai .kp b{color:var(--gold);}
+.skill-card--wide{grid-column:span 2;}
+
+.hobby{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.hobby__item{
+  display:flex;flex-direction:column;gap:7px;
+  padding:17px 19px;border-radius:var(--r-xs);
+  background:var(--canvas);border:1px solid var(--line);
+  transition:transform .4s var(--ease),border-color .3s;
+}
+.hobby__item:hover{transform:translateY(-3px);border-color:var(--brick-line);}
+.hobby__item b{font-size:14px;font-weight:600;}
+.hobby__item span{font-size:12.5px;color:var(--muted);line-height:1.6;}
+.hobby__img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--r-xs);margin-top:5px;background:var(--line);}
+
+
+/* ---------- 13 联系与页脚 ---------- */
+.cta{
+  margin-top:22px;padding:44px 36px 38px;text-align:center;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);
+}
+.cta h3{font-size:clamp(21px,2.8vw,29px);letter-spacing:-.03em;}
+.cta > p{margin-top:12px;font-size:14px;color:var(--muted);}
+.cta__actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:30px;}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:13px 26px;border-radius:var(--r-sm);border:1px solid transparent;
+  font-size:14.5px;font-weight:500;text-decoration:none;cursor:pointer;
+  transition:transform .22s ease,background .3s,border-color .3s;
+}
+.btn--primary{background:var(--brick);color:#fff;border-color:var(--brick);}
+.btn--primary:hover{background:var(--brick-deep);border-color:var(--brick-deep);}
+.btn--ghost{background:var(--surface);color:var(--brick);border-color:var(--brick-line);}
+.btn--ghost:hover{background:var(--brick-tint);border-color:var(--brick);}
+.btn:active{transform:scale(.96);}
+
+.cta__meta{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:18px;
+  margin-top:40px;padding-top:26px;border-top:1px solid var(--line);text-align:left;
+}
+.cta__meta em{
+  display:block;font-style:normal;
+  font-family:var(--serif);font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--gold);
+}
+.cta__meta b{display:block;margin-top:7px;font-size:13.5px;font-weight:500;}
+.cta__meta a{color:var(--brick);text-decoration:none;}
+.cta__meta a:hover{text-decoration:underline;}
+
+.copyright{margin-top:26px;text-align:center;font-size:12px;color:var(--muted-2);}
+
+
+/* ---------- 14 弹层 / 提示 ---------- */
+.modal{position:fixed;inset:0;z-index:90;display:none;place-items:center;padding:20px;}
+.modal.is-open{display:grid;}
+.modal__backdrop{
+  position:absolute;inset:0;
+  background:rgba(70,48,40,.42);backdrop-filter:blur(5px);
+  animation:fadeIn .3s ease;
+}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+.modal__box{
+  position:relative;width:100%;max-width:400px;padding:34px 30px 28px;
+  background:var(--surface);border-radius:var(--r-md);text-align:center;
+  border-top:3px solid var(--brick);
+  animation:popIn .5s var(--ease);
+}
+@keyframes popIn{from{opacity:0;transform:translateY(20px) scale(.96);}to{opacity:1;transform:none;}}
+.modal__close{
+  position:absolute;top:12px;right:14px;width:32px;height:32px;border-radius:50%;
+  border:0;background:var(--canvas);color:var(--muted);font-size:18px;line-height:1;cursor:pointer;
+  transition:background .25s,transform .3s var(--ease),color .25s;
+}
+.modal__close:hover{background:var(--brick-tint);color:var(--brick);transform:rotate(90deg);}
+.modal__tag{
+  font-family:var(--serif);font-size:10px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--brick);
+}
+.modal__box h3{margin-top:11px;font-size:20px;letter-spacing:-.026em;}
+.modal__box p{margin-top:10px;font-size:13.5px;color:var(--muted);line-height:1.65;}
+.modal__id{margin-top:16px !important;font-size:14.5px !important;font-weight:600;color:var(--ink) !important;}
+.modal__row{display:flex;gap:22px;justify-content:center;margin-top:14px;}
+.modal__row .textlink{font-size:13px;}
+
+/* 轻提示：砖红底，不用黑色 */
+.toast{
+  position:fixed;left:50%;bottom:34px;z-index:120;
+  transform:translate(-50%,20px);opacity:0;pointer-events:none;
+  padding:11px 20px;border-radius:var(--r-sm);
+  background:var(--brick);color:#fff;font-size:13px;
+  box-shadow:0 8px 24px rgba(203,87,52,.28);
+  transition:opacity .35s ease,transform .4s var(--ease);
+}
+.toast.is-on{opacity:1;transform:translate(-50%,0);}
+
+.topbar{display:none;}
+.scrim{display:none;}
+
+
+/* ---------- 15 响应式 ---------- */
+/* 平板 / 手机：侧栏改为抽屉（断点 1100px，横屏平板保留全宽内容） */
+@media (max-width:1099px){
+  .sidebar{
+    width:280px;transform:translateX(-100%);
+    transition:transform .5s var(--ease);z-index:50;
+    border-right:1px solid var(--line);
+  }
+  .sidebar.is-open{transform:none;}
+  .pane{margin-left:0;padding-top:58px;scroll-snap-type:none;scroll-padding-top:70px;}
+  .pane__inner{padding:26px 22px 56px;}
+  .section{padding-block:34px;scroll-snap-align:none;scroll-margin-top:70px;}
+
+  .topbar{
+    position:fixed;top:0;left:0;right:0;z-index:40;
+    display:flex;align-items:center;gap:12px;height:58px;
+    padding:0 122px 0 14px;
+    background:rgba(255,255,255,.94);
+    backdrop-filter:saturate(180%) blur(18px);
+    -webkit-backdrop-filter:saturate(180%) blur(18px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar__menu{
+    width:38px;height:38px;flex:none;border:0;background:none;cursor:pointer;
+    display:grid;place-content:center;gap:4px;border-radius:var(--r-sm);
+  }
+  .topbar__menu span{display:block;width:17px;height:1.5px;background:var(--ink);border-radius:2px;transition:transform .4s var(--ease),opacity .3s;}
+  .topbar__menu[aria-expanded="true"] span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
+  .topbar__menu[aria-expanded="true"] span:nth-child(2){opacity:0;}
+  .topbar__menu[aria-expanded="true"] span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
+  .topbar__brand{display:flex;align-items:center;gap:9px;min-width:0;}
+  .topbar__mono{
+    width:28px;height:28px;flex:none;border-radius:var(--r-xs);display:grid;place-items:center;
+    background:linear-gradient(135deg,#da6841,#b8452a);color:#fff;font-size:13px;font-weight:600;
+  }
+  .topbar__name{font-size:14.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+  .scrim{
+    display:block;position:fixed;inset:0;z-index:45;
+    background:rgba(70,48,40,.34);opacity:0;pointer-events:none;
+    transition:opacity .35s ease;
+  }
+  .scrim.is-on{opacity:1;pointer-events:auto;}
+
+  .langbar{top:11px;right:14px;}
+  .langbar__btn{padding:7px 13px;font-size:12.5px;}
+}
+
+@media (max-width:900px){
+  .hero__grid{flex-direction:column;align-items:flex-start;gap:30px;}
+  .hero__rule{margin:20px 0 18px;}
+  .articles{grid-template-columns:repeat(2,1fr);}
+  .skill-grid{grid-template-columns:1fr;}
+  .skill-card--wide{grid-column:auto;}
+  .ai-feature{grid-template-columns:1fr;gap:22px;}
+  .ai-feature__img{aspect-ratio:16/9;}
+  .stats{grid-template-columns:repeat(3,1fr);}
+  .stat:nth-child(3n){border-right:0;}
+  .stat{border-top:1px solid var(--line);}
+  .stat:nth-child(-n+3){border-top:0;}
+  .cta__meta{grid-template-columns:1fr 1fr;}
+  .cta{padding:34px 24px 30px;}
+  .sec-head__num{font-size:74px;}
+
+  /* 马赛克改为两列流式 */
+  .mosaic{grid-template-columns:repeat(2,1fr);grid-auto-rows:auto;gap:12px;}
+  .mosaic .slot{grid-column:auto !important;grid-row:auto !important;aspect-ratio:4/3;}
+  .grid-4{grid-template-columns:repeat(2,1fr);gap:12px;}
+}
+
+@media (max-width:720px){
+  .articles{grid-template-columns:1fr;}
+}
+
+@media (max-width:560px){
+  .pane__inner{padding:20px 16px 48px;}
+  .section{padding-block:28px;}
+  .row{gap:16px;padding:24px 0;}
+  .row__ghost{font-size:48px;top:26px;transform:none;}
+  .rows--about .row__ghost{width:36px;margin-top:-4px;font-size:46px;}
+  .row__date{margin-left:0;width:100%;}
+  .row__top h3{font-size:16.5px;}
+  .row__top h4{font-size:15.5px;}
+  .slot--logo{width:42px;height:42px;}
+  .slot--circle{width:128px;height:128px;}
+  .typewriter{padding:24px 20px;}
+  .stats{grid-template-columns:1fr 1fr;}
+  .stat:nth-child(3n){border-right:1px solid var(--line);}
+  .stat:nth-child(2n){border-right:0;}
+  .stat:nth-child(-n+3){border-top:1px solid var(--line);}
+  .stat:nth-child(-n+2){border-top:0;}
+  .stat{padding:20px 14px;}
+  .hobby{grid-template-columns:1fr;}
+  .cta__meta{grid-template-columns:1fr;gap:14px;}
+  .mosaic{grid-template-columns:1fr;}
+  .mosaic .slot{aspect-ratio:16/10;}
+  .modal__box{padding:28px 20px 24px;}
+  .slot--qr{width:172px;height:172px;}
+  .modal__row{flex-direction:column;gap:10px;align-items:center;}
+  .sec-head__num{font-size:60px;left:-2px;}
+  .sec-head{margin-bottom:28px;}
+}
+
+/* 超宽屏：内容锁定宽度，留白吸收多余空间 */
+@media (min-width:1600px){
+  .pane__inner{max-width:1060px;}
+}
+
+
+/* ---------- 16 无障碍：尊重「减少动态效果」 ---------- */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+  }
+  .reveal{opacity:1 !important;transform:none !important;}
+  .nav__blob{animation:none;border-radius:5px;}
+  .typewriter__caret{opacity:1;}
+  .pane{scroll-behavior:auto;scroll-snap-type:none;}
+  .is-in .bar i::after{width:var(--w);}
+}
+
+</style>
+<style id="__dm_no_drag_style__">* { -webkit-user-drag: none !important; }</style><style id="__dm_bindable_badge_style__">[data-sp-bindable="database"]{outline:1px dashed #0088ff;outline-offset:2px;border-radius:4px;}[data-sp-bindable="database"] *{pointer-events:none !important;transition:none !important;animation:none !important;}[data-sp-bindable="database"]{transition:none !important;animation:none !important;}</style></head>
+
+<body data-lang="zh">
+
+<!-- 画布纹理：极淡的斜向细纹，增加纸感 -->
+<div aria-hidden="true" class="grain" style="width:294px"></div>
+
+<!-- ===================== 移动端顶部栏（白色，无黑） ===================== -->
+<header class="topbar">
+  <button aria-expanded="false" aria-label="打开目录" class="topbar__menu" id="menuBtn">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="topbar__brand">
+    <span class="topbar__mono">朱</span>
+    <span class="topbar__name" data-i18n="brand.name">朱艳</span>
+  </div>
+</header>
+
+<!-- ===================== 中英文切换（右上角，砖红描边，突出显示） ===================== -->
+<div aria-label="Language switch" class="langbar" role="group">
+  <button aria-pressed="true" class="langbar__btn is-active" data-lang-btn="zh">中文</button>
+  <button aria-pressed="false" class="langbar__btn" data-lang-btn="en">EN</button>
+</div>
+
+<!-- ===================== 左侧导航栏（纯白 + 砖红点缀） ===================== -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar__head">
+    <div class="brand">
+      <span class="brand__mono">朱</span>
+      <div class="brand__meta">
+        <strong data-i18n="brand.name">朱艳</strong>
+        <span data-i18n="brand.role">品牌市场经理 / 主管</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 导航：悬停 / 选中 → 3px 砖红指示条 + 底衬滑动 + 位移放大 -->
+  <nav aria-label="页面目录" class="nav" id="nav">
+    <span aria-hidden="true" class="nav__blob is-on" id="navBlob" style="top:241px; height:45px"></span>
+    <a class="nav__item" data-target="home" href="#home">
+      <span class="nav__num">01</span><span class="nav__label" data-i18n="nav.home">首页</span>
+    </a>
+    <a class="nav__item" data-target="about" href="#about">
+      <span class="nav__num">02</span><span class="nav__label" data-i18n="nav.about">关于我</span>
+    </a>
+    <a class="nav__item" data-target="experience" href="#experience">
+      <span class="nav__num">03</span><span class="nav__label" data-i18n="nav.experience">工作经历</span>
+    </a>
+    <a class="nav__item" data-target="projects" href="#projects">
+      <span class="nav__num">04</span><span class="nav__label" data-i18n="nav.projects">项目经历</span>
+    </a>
+    <a class="nav__item" data-target="portfolio" href="#portfolio">
+      <span class="nav__num">05</span><span class="nav__label" data-i18n="nav.portfolio">作品集</span>
+    </a>
+    <a class="nav__item is-active" data-target="skills" href="#skills">
+      <span class="nav__num">06</span><span class="nav__label" data-i18n="nav.skills">技能</span>
+    </a>
+    <a class="nav__item" data-target="contact" href="#contact">
+      <span class="nav__num">07</span><span class="nav__label" data-i18n="nav.contact">联系</span>
+    </a>
+  </nav>
+
+  <div class="sidebar__foot">
+    <p class="status">
+      <i class="status__dot"></i><span data-i18n="side.status" style="white-space:pre-wrap">离职 · 正在看新机会​</span>
+    </p>
+    <p class="side-contact">
+      <a href="tel:19223142154">19223142154</a>
+      <span class="dot"></span>
+      <a href="mailto:642908610@qq.com">642908610@qq.com</a>
+    </p>
+  </div>
+</aside>
+
+<div aria-hidden="true" class="scrim" id="scrim"></div>
+
+<!-- ===================== 右侧内容面板 ===================== -->
+<main class="pane" id="pane" style="position:relative">
+<div class="pane__inner">
+
+  <!-- ============ 01 首页 ============ -->
+  <section class="section" data-section="home" id="home">
+    <!-- 右上角暖色光晕装饰 -->
+    <div aria-hidden="true" class="glow"></div>
+
+    <div class="hero reveal is-in" style="transition-delay:70ms">
+      <div class="hero__grid">
+        <!-- 圆形头像（可上传） -->
+        <label class="slot slot--circle hero__avatar has-img" data-group="hero" data-slot="avatar"><img src="images/avatar.jpg" alt="朱艳 头像"></label>
+
+        <!-- 姓名 + 求职意向（与头像左右分布，视觉均衡） -->
+        <div class="hero__id">
+          <p class="hero__eyebrow" data-i18n="hero.eyebrow">个人简历 · RESUME</p>
+          <h1 class="hero__name" data-i18n="hero.name">朱艳</h1>
+          <p class="hero__en">JULIA ZHU</p>
+
+          <span aria-hidden="true" class="hero__rule"></span>
+
+          <p class="hero__target">
+            <span class="hero__target-label" data-i18n="hero.targetLabel">求职意向</span>
+            <span class="hero__target-value" data-i18n="hero.target">品牌市场经理 / 主管</span>
+          </p>
+          <p class="hero__loc" data-i18n="hero.loc">意向城市 北京　·　7 年+ 跨国上市企业品牌营销经验</p>
+        </div>
+      </div>
+
+      <!-- 电话 / 邮箱 / 微信 / 领英 -->
+      <div class="hero__contact">
+        <a class="chip" href="tel:19223142154">
+          <em data-i18n="hero.phoneLabel">电话</em><span>19223142154</span>
+        </a>
+        <a class="chip" href="mailto:642908610@qq.com">
+          <em data-i18n="hero.emailLabel">邮箱</em><span>642908610@qq.com</span>
+        </a>
+        <span class="chip chip--static">
+          <em data-i18n="hero.wechatLabel">微信</em><span>swift-zhu</span>
+        </span>
+        <a class="chip" href="https://www.linkedin.com/in/julia-zhu-profile" rel="noopener" target="_blank">
+          <em>LinkedIn</em><span data-i18n="hero.linkedinValue">查看主页</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- 核心竞争力 · 打字机（白底 + 砖红左边线，无黑色块） -->
+    <div class="typewriter reveal is-in" style="transition-delay:140ms">
+      <span aria-hidden="true" class="typewriter__quote">“</span>
+      <p class="typewriter__text">
+        <span id="twText">兼具设计审美与市场运营思维的复合型品牌人</span><i class="typewriter__caret" id="twCaret"></i>
+      </p>
+      <span class="typewriter__sub" data-i18n="hero.twSub">核心优势 · 一句读懂我</span>
+    </div>
+
+    <!-- 关键数据：编辑式细线分栏 -->
+    <div class="stats reveal is-in" style="transition-delay:210ms">
+      <div class="stat"><b>7<span>+</span></b><em data-i18n="stats.1">年跨国上市企业品牌营销</em></div>
+      <div class="stat"><b>500<span>%</span></b><em data-i18n="stats.2">年有效咨询增长</em></div>
+      <div class="stat"><b>300<span>%</span></b><em data-i18n="stats.3">全平台关注量增长</em></div>
+      <div class="stat"><b>50<span>W+</span></b><em data-i18n="stats.4">视频号播放量</em></div>
+      <div class="stat"><b>Top<span>100</span></b><em data-i18n="stats.5">品牌排名跃升​</em></div>
+    </div>
+
+    <p class="scroll-hint reveal is-in" style="transition-delay:280ms"><span data-i18n="hero.hint">向下滚动，继续了解我</span><i></i></p>
+  </section>
+
+  <!-- ============ 02 关于我 ============ -->
+  <section class="section" data-section="about" id="about">
+    <header class="sec-head reveal is-in" style="transition-delay:0ms">
+      <span aria-hidden="true" class="sec-head__num">02</span>
+      <div class="sec-head__body">
+        <span class="sec-head__en">About Me</span>
+        <h2 data-i18n="about.title">关于我</h2>
+        <span aria-hidden="true" class="sec-head__bar"></span>
+      </div>
+    </header>
+
+    <!-- 四大核心亮点：编辑式行 + 要点清单（不使用大段文字） -->
+    <div class="rows rows--about reveal is-in" style="transition-delay:70ms">
+      <article class="row">
+        <span aria-hidden="true" class="row__ghost">A</span>
+        <div class="row__body">
+          <div class="row__top">
+            <h3 data-i18n="about.h1t">「设计 + 市场」复合型品牌人</h3>
+          </div>
+          <ul class="kp">
+            <li data-i18n="about.h1p1">设计学硕士 + 工商管理第二学位，<b>审美与商业思维</b>兼备</li>
+            <li data-i18n="about.h1p2">可独立完成「<b>内容策划 → 视觉呈现</b>」全链路交付</li>
+            <li data-i18n="about.h1p3">设计决策带商业视角，投入产出可衡量</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="row">
+        <span aria-hidden="true" class="row__ghost">B</span>
+        <div class="row__body">
+          <div class="row__top">
+            <h3 data-i18n="about.h2t">7 年跨国上市企业品牌营销经验</h3>
+          </div>
+          <ul class="kp">
+            <li data-i18n="about.h2p1">主导品牌排名升至全美权威榜单 <b>Top 100</b></li>
+            <li data-i18n="about.h2p2">年有效咨询增长 <b>500%</b>，全平台关注量增长 <b>300%</b></li>
+            <li data-i18n="about.h2p3">视频号播放量突破 <b>50W+</b>，年均视觉物料产出 <b>200+</b> 份</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="row">
+        <span aria-hidden="true" class="row__ghost">C</span>
+        <div class="row__body">
+          <div class="row__top">
+            <h3 data-i18n="about.h3t">英语工作（CET-6）​​</h3>
+          </div>
+          <ul class="kp">
+            <li data-i18n="about.h3p1"><b>中英文双语</b>能力，读写流利</li>
+            <li data-i18n="about.h3p2">长期与英国 / 美国海外校区团队协同推进品牌与市场工作​</li>
+            <li data-i18n="about.h3p3">熟悉海外品牌在国内落地的完整协作链路</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="row">
+        <span aria-hidden="true" class="row__ghost">D</span>
+        <div class="row__body">
+          <div class="row__top">
+            <h3 data-i18n="about.h4t">持续的学习者</h3>
+          </div>
+          <ul class="kp">
+            <li data-i18n="about.h4p1"><b>AI 工具先行实践者</b>，已嵌入选题、视觉与批量产出流程</li>
+            <li data-i18n="about.h4p2">AI 设计作品已获<b>商业订单</b></li>
+            <li data-i18n="about.h4p3">把新工具快速转化为可用生产力</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+
+    <!-- 教育履历：竖版分条，校徽为可上传方形图片 -->
+    <div class="sub-block reveal is-in" style="transition-delay:140ms">
+      <h3 class="sub-title">
+        <span data-i18n="edu.title">教育履历</span>
+        <em class="sub-title__en">Education</em>
+      </h3>
+
+      <ol class="rows rows--edu">
+        <!-- 北京理工大学 -->
+        <li class="row row--edu">
+          <label class="slot slot--logo has-img" data-group="edu" data-slot="edu-1"><img src="images/edu-1.jpg" alt="北京理工大学 校徽"></label>
+          <div class="row__body">
+            <div class="row__top">
+              <h4 data-i18n="edu.1school">北京理工大学</h4>
+              <span class="row__date">2015.09 – 2018.06</span>
+            </div>
+            <p class="row__prog" data-i18n="edu.1prog">设计学硕士 · 工业设计系（全日制）</p>
+            <p class="row__note" data-i18n="edu.1note">2016 年赴台北科技大学创新与设计学院交换学习</p>
+          </div>
+        </li>
+
+        <!-- 台北科技大学（独立分组） -->
+        <li class="row row--edu">
+          <label class="slot slot--logo has-img" data-group="edu" data-slot="edu-tw"><img src="images/edu-tw.png" alt="台北科技大学 校徽"></label>
+          <div class="row__body">
+            <div class="row__top">
+              <h4 data-i18n="edu.tw.school">台北科技大学</h4>
+              <span class="row__date">2016.02 – 2016.07</span>
+            </div>
+            <p class="row__prog" data-i18n="edu.tw.prog">创新与设计学院 · 硕士交换学习</p>
+            <p class="row__note" data-i18n="edu.tw.note">硕士在读期间赴台交换一学期，修读设计创新相关课程，参与跨地域设计协作，拓展跨文化设计视角。</p>
+          </div>
+        </li>
+
+        <!-- 河南工业大学 -->
+        <li class="row row--edu">
+          <label class="slot slot--logo has-img" data-group="edu" data-slot="edu-2"><img src="images/edu-2.jpg" alt="河南工业大学 校徽"></label>
+          <div class="row__body">
+            <div class="row__top">
+              <h4 data-i18n="edu.2school">河南工业大学</h4>
+              <span class="row__date">2010.09 – 2014.07</span>
+            </div>
+            <p class="row__prog" data-i18n="edu.2prog" style="white-space:pre-wrap">工业设计本科（设计与艺术学院）· 全日制
+工商管理（管理学院）· 第二学位</p>
+            <p class="row__note" data-i18n="edu.2note">国家奖学金 + 校一等奖学金</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ 03 工作经历 ============ -->
+  <section class="section" data-section="experience" id="experience">
+    <header class="sec-head reveal is-in" style="transition-delay:0ms">
+      <span aria-hidden="true" class="sec-head__num">03</span>
+      <div class="sec-head__body">
+        <span class="sec-head__en">Experience</span>
+        <h2 data-i18n="exp.title">工作经历</h2>
+        <span aria-hidden="true" class="sec-head__bar"></span>
+      </div>
+    </header>
+
+    <ol class="rows rows--work reveal is-in" style="transition-delay:70ms">
+      <!-- A. CATS Global Schools -->
+      <li class="row">
+        <span aria-hidden="true" class="row__ghost">A</span>
+        <label class="slot slot--logo has-img" data-group="exp" data-slot="co-cats"><img src="images/co-cats.jpg" alt="CATS Global Schools 标志"></label>
+        <div class="row__body">
+          <div class="row__top">
+            <h3 data-i18n="exp.1role">品牌市场主管</h3>
+            <span class="badge" data-i18n="exp.current">离职</span>
+            <span class="row__date">2020.12 – <span data-i18n="exp.now">至今</span></span>
+          </div>
+          <p class="row__prog" data-i18n="exp.1company">CATS Global Schools（碧桂园教育旗下海外教育集团）· 北京</p>
+          <ul class="kp">
+            <li data-i18n="exp.1k1"><b>新媒体矩阵</b>：独立运维公众号 / 微博 / 抖音 / 视频号 / 小红书五大账号</li>
+            <li data-i18n="exp.1k2"><b>增长结果</b>：年有效咨询 +500%，全平台关注量 +300%，视频号播放 50W+</li>
+            <li data-i18n="exp.1k3"><b>视觉产出</b>：独立负责集团旗下四个品牌的视觉设计，年均 200+ 份海报 / 手册 / 视频</li>
+            <li data-i18n="exp.1k4"><b>直播全案</b>：固定每月 2 场视频号直播，覆盖策划 · 脚本 · 场控 · 转化</li>
+            <li data-i18n="exp.1k5"><b>品牌资产</b>：主导品牌吉祥物与商务礼品定制，统筹全年活动物料与部门预算</li>
+            <li data-i18n="exp.1k6"><b>跨国服务</b>：带队 20+ 企业主赴英访校，统筹行程与服务，零客诉</li>
+            <li data-i18n="exp.1k7"><b>品牌升级</b>：全程跟进海外品牌国内落地 —— 品牌定位、视觉识别统一、整合营销传播</li>
+          </ul>
+          <div class="tags">
+            <span data-i18n="exp.1t1">品牌定位</span><span data-i18n="exp.1t2">整合营销</span><span data-i18n="exp.1t3">新媒体矩阵</span>
+            <span data-i18n="exp.1t4">内容运营</span><span data-i18n="exp.1t5">视觉设计</span><span data-i18n="exp.1t6">数据投放</span>
+            <span data-i18n="exp.1t7">跨国协作</span><span data-i18n="exp.1t8">预算管理</span>
+          </div>
+        </div>
+      </li>
+
+      <!-- B. 汉能 -->
+      <li class="row">
+        <span aria-hidden="true" class="row__ghost">B</span>
+        <label class="slot slot--logo has-img" data-group="exp" data-slot="co-hanergy"><img src="images/co-hanergy.png" alt="汉能薄膜发电集团 标志"></label>
+        <div class="row__body">
+          <div class="row__top">
+            <h3 data-i18n="exp.2role">市场管理培训生</h3>
+            <span class="row__date">2018.08 – 2019.10</span>
+          </div>
+          <p class="row__prog" data-i18n="exp.2company">汉能薄膜发电集团有限公司 · 市场管理部 · 北京</p>
+          <ul class="kp">
+            <li data-i18n="exp.2k1"><b>国家级展会</b>：服务上海 SNEC 光伏展、第二届中国国际进口博览会</li>
+            <li data-i18n="exp.2k2"><b>规模化物料设计交付​</b>：独立完成展会宣传物料，主导 20,000 份产品宣传手册设计落地</li>
+            <li data-i18n="exp.2k3"><b>视觉标准</b>：统一事业部对外视觉标准 —— 商务 PPT / 海报 / 三维效果图 / 展厅 / 宣传册设计</li>
+            <li data-i18n="exp.2k4"><b>文案与可研报告撰写​</b>：微信宣传文案撰写，协助项目前期调研与可行性研究报告</li>
+          </ul>
+          <div class="tags">
+            <span data-i18n="exp.2t1">视觉标准​</span><span data-i18n="exp.2t2">展会落地</span>
+            <span data-i18n="exp.2t3">物料统筹</span><span data-i18n="exp.2t4">文案撰写</span>
+            <span data-i18n="exp.2t5">项目统筹</span>
+          </div>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ============ 04 项目经历 ============ -->
+  <section class="section" data-section="projects" id="projects">
+    <header class="sec-head reveal is-in" style="transition-delay:0ms">
+      <span aria-hidden="true" class="sec-head__num">04</span>
+      <div class="sec-head__body">
+        <span class="sec-head__en">Projects</span>
+        <h2 data-i18n="proj.title">项目经历</h2>
+        <span aria-hidden="true" class="sec-head__bar"></span>
+      </div>
+    </header>
+
+    <ol class="rows reveal is-in" style="transition-delay:70ms">
+      <li class="row">
+        <span aria-hidden="true" class="row__ghost">A</span>
+        <div class="row__body">
+          <div class="row__top">
+            <h3 data-i18n="proj.1name">品牌排名升级项目 · 项目负责人</h3>
+            <span class="row__date">2025.03 – 2025.08​</span>
+          </div>
+          <p class="row__prog" data-i18n="proj.1org">CATS Global Schools · 市场部 · 北京</p>
+          <ul class="kp">
+            <li data-i18n="proj.1k1">主导海外院校官网品牌排名升级，统筹<b>竞对信息分析、用户评论优化​</b>与<b>后台信息迭代​</b></li>
+            <li data-i18n="proj.1k2">负责服务商精准对接，跨部门推进项目节点与交付质量</li>
+          </ul>
+          <div class="result">
+            <span class="result__k" data-i18n="proj.resultLabel">项目成果</span>
+            <span class="result__v" data-i18n="proj.1r">品牌排名跻身<b>全美权威榜单前 100​</b>，行业影响力与公信力显著提升</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="row">
+        <span aria-hidden="true" class="row__ghost">B</span>
+        <div class="row__body">
+          <div class="row__top">
+            <h3 data-i18n="proj.2name">项目结项管理 · 部门主要负责人</h3>
+            <span class="row__date">2018.10 – 2018.12</span>
+          </div>
+          <p class="row__prog" data-i18n="proj.2org">汉能薄膜发电集团 · 市场部 · 北京</p>
+          <ul class="kp">
+            <li data-i18n="proj.2k1">作为市场部与项目管理部对接人，带领 <b>3 名</b>管培生推进部门项目结项</li>
+            <li data-i18n="proj.2k2">完成项目管理系统的培训与线上录入，对接事业部及集团项目管理中心</li>
+            <li data-i18n="proj.2k3">交付验收书 / 结项报告 / 评审 PPT / 满意度评价，全部回传 PPM 系统</li>
+          </ul>
+          <div class="result">
+            <span class="result__k" data-i18n="proj.resultLabel">项目成果</span>
+            <span class="result__v" data-i18n="proj.2r">部门 <b>10 个项目​</b>100% 按期结项，项目成员全部获得项目积分</span>
+          </div>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ============ 05 作品集 ============ -->
+  <section class="section" data-section="portfolio" id="portfolio">
+    <header class="sec-head reveal is-in" style="transition-delay:0ms">
+      <span aria-hidden="true" class="sec-head__num">05</span>
+      <div class="sec-head__body">
+        <span class="sec-head__en">Portfolio</span>
+        <h2 data-i18n="pf.title">作品集</h2>
+        <span aria-hidden="true" class="sec-head__bar"></span>
+      </div>
+    </header>
+
+    <!-- ---------- Part 01 新媒体作品 ---------- -->
+    <div class="block reveal is-in" data-drop="article" style="transition-delay:70ms">
+      <div class="block__head">
+        <span class="block__tag">Part 01</span>
+        <h3 data-i18n="pf.b1title">新媒体作品</h3>
+        <p data-i18n="pf.b1desc">公众号 / 视频号 / 抖音内容策划与投放</p>
+        
+      </div>
+
+      <div class="articles">
+        <article class="art-card">
+          <label class="slot slot--cover has-img" data-group="article" data-slot="article-1"><img src="images/article-1.jpg" alt="集团新闻 | 博实乐教育受邀出席「中英商务论坛」封面"></label>
+          <div class="art-card__body">
+            <span class="art-card__acct" data-i18n="pf.a1acct">CGS Group</span>
+            <h4 data-i18n="pf.a1title">集团新闻 | 博实乐教育受邀出席「中英商务论坛」</h4>
+            <p class="art-card__date" data-i18n="pf.a1date">2026.01 · 集团官微</p>
+            <a class="textlink" href="https://mp.weixin.qq.com/s/ouaAKkibl6J1Wl84_Ytr7Q" rel="noopener" target="_blank">
+              <span data-i18n="pf.read">阅读原文</span><i>→</i>
+            </a>
+          </div>
+        </article>
+
+        <article class="art-card">
+          <label class="slot slot--cover has-img" data-group="article" data-slot="article-2"><img src="images/article-2.jpg" alt="波士顿文理中学 | 2025 年度回顾 封面"></label>
+          <div class="art-card__body">
+            <span class="art-card__acct" data-i18n="pf.a2acct">CAB 美高办公室</span>
+            <h4 data-i18n="pf.a2title">波士顿文理中学 | 2025 年度回顾</h4>
+            <p class="art-card__date" data-i18n="pf.a2date">2025.12 · 校方官微</p>
+            <a class="textlink" href="https://mp.weixin.qq.com/s/C7QBncpspJ6pGl8v55zETQ" rel="noopener" target="_blank">
+              <span data-i18n="pf.read">阅读原文</span><i>→</i>
+            </a>
+          </div>
+        </article>
+
+        <article class="art-card">
+          <label class="slot slot--cover has-img" data-group="article" data-slot="article-3"><img src="images/article-3.jpg" alt="CGS 英国国际中学 | 2025 年度回顾 封面"></label>
+          <div class="art-card__body">
+            <span class="art-card__acct" data-i18n="pf.a3acct">CGS 英国 K12 校方代表处</span>
+            <h4 data-i18n="pf.a3title">CGS 英国国际中学 | 2025 年度回顾</h4>
+            <p class="art-card__date" data-i18n="pf.a3date">2025.12 · 校方官微</p>
+            <a class="textlink" href="https://mp.weixin.qq.com/s/lLrac7-xtkILSeT4ifZyaA" rel="noopener" target="_blank">
+              <span data-i18n="pf.read">阅读原文</span><i>→</i>
+            </a>
+          </div>
+        </article>
+      </div>
+
+      <div class="note-strip">
+        <span class="note-strip__k" data-i18n="pf.b1noteK">延伸能力</span>
+        <p data-i18n="pf.b1note">视频号 / 抖音短视频策划与剪辑 · 直播全案（策划 / 脚本 / 场控 / 转化）· 微信端数据投放与效果复盘</p>
+      </div>
+    </div>
+
+    <!-- ---------- Part 02 设计作品（大小图混排） ---------- -->
+    <div class="block reveal is-in" data-drop="design" style="transition-delay:140ms">
+      <div class="block__head">
+        <span class="block__tag">Part 02</span>
+        <h3 data-i18n="pf.b2title">设计作品 · 宣传手册 / 海报</h3>
+        <p data-i18n="pf.b2desc">品牌主视觉、宣传手册、推广海报、长图与线下展陈物料</p>
+        
+      </div>
+
+      <div class="mosaic">
+        <label class="slot m-6x3 has-img" data-group="design" data-slot="gd-1"><img src="images/gd-1.jpg" alt="宣传手册封面"></label>
+        <label class="slot m-6x2 has-img" data-group="design" data-slot="gd-2"><img src="images/gd-2.jpg" alt="推广海报"></label>
+        <label class="slot m-3x1 has-img" data-group="design" data-slot="gd-3"><img src="images/gd-3.jpg" alt="活动主横幅"></label>
+        <label class="slot m-3x1 has-img" data-group="design" data-slot="gd-4"><img src="images/gd-4.jpg" alt="设备铭牌设计"></label>
+        <label class="slot m-4x2 has-img" data-group="design" data-slot="gd-5"><img src="images/gd-5.jpg" alt="作品集长图"></label>
+        <label class="slot m-4x2 has-img" data-group="design" data-slot="gd-6"><img src="images/gd-6.jpg" alt="系列海报"></label>
+        <label class="slot m-4x2 has-img" data-group="design" data-slot="gd-7"><img src="images/gd-7.jpg" alt="3D 设计 / 销售方案"></label>
+        <label class="slot m-6x2 has-img" data-group="design" data-slot="gd-8"><img src="images/gd-8.jpg" alt="产品手册 / 折页"></label>
+        <label class="slot m-6x2 has-img" data-group="design" data-slot="gd-9"><img src="images/gd-9.jpg" alt="三折页 / 手册"></label>
+      </div>
+
+      <!-- AI 设计：商单中选（暖色强调块，非深色） -->
+      <div class="ai-feature">
+        <label class="slot ai-feature__img has-img" data-group="ai" data-slot="gd-ai"><img src="images/gd-ai.jpg" alt="AI 辅助设计作品"></label>
+        <div class="ai-feature__body">
+          <span class="ai-feature__tag" data-i18n="pf.aiTag">AI 设计 · 商单中选</span>
+          <h4 data-i18n="pf.aiTitle">AI 辅助设计作品已获商业订单</h4>
+          <ul class="kp">
+            <li data-i18n="pf.aiK1">需求拆解 → 风格探索 → 成品输出，AI 全流程跑通</li>
+            <li data-i18n="pf.aiK2">方案在数百份商业比稿中中选并完成交付​</li>
+            <li data-i18n="pf.aiK3">「设计判断力 × AI 效率」的复合生产力已验证</li>
+          </ul>
+          <a class="textlink" href="https://my.feishu.cn/drive/folder/ZQnvfHbyJl3qcBdeaLacMvFJn3d" rel="noopener" target="_blank">
+            <span data-i18n="pf.aiLink">查看 AI 作品集</span><i>→</i>
+          </a>
+        </div>
+      </div>
+
+      <a class="source-link" href="https://book.yunzhan365.com/wpoqb/djko/mobile/index.html" rel="noopener" target="_blank">
+        <span data-i18n="pf.b2link" style="white-space:pre-wrap">查看完整设计作品PDF​</span><i>→</i>
+      </a>
+    </div>
+
+    <!-- ---------- Part 03 品宣物料（一版面多图） ---------- -->
+    <div class="block reveal is-in" data-drop="material" style="transition-delay:210ms">
+      <div class="block__head">
+        <span class="block__tag">Part 03</span>
+        <h3 data-i18n="pf.b3title">品宣物料制作 · 商务礼品定制</h3>
+        <p data-i18n="pf.b3desc">全国活动物料设计制作与采购，支撑全年 100+ 场活动落地</p>
+        
+      </div>
+
+      <div class="grid-4">
+        <label class="slot sq has-img" data-group="material" data-slot="mt-1"><img src="images/mt-1.jpg" alt="品牌吉祥物"></label>
+        <label class="slot sq has-img" data-group="material" data-slot="mt-2"><img src="images/mt-2.jpg" alt="商务礼品套装"></label>
+        <label class="slot sq has-img" data-group="material" data-slot="mt-3"><img src="images/mt-3.jpg" alt="定制笔记本 & 笔"></label>
+        <label class="slot sq has-img" data-group="material" data-slot="mt-4"><img src="images/mt-4.jpg" alt="帆布袋 / 保温杯"></label>
+        <label class="slot sq has-img" data-group="material" data-slot="mt-5"><img src="images/mt-5.jpg" alt="徽章 & 贴纸"></label>
+        <label class="slot sq has-img" data-group="material" data-slot="mt-6"><img src="images/mt-6.jpg" alt="活动伴手礼"></label>
+        <label class="slot sq has-img" data-group="material" data-slot="mt-7"><img src="images/mt-7.jpg" alt="展会展陈物料"></label>
+        <label class="slot sq has-img" data-group="material" data-slot="mt-8"><img src="images/mt-8.jpg" alt="活动现场物料"></label>
+      </div>
+
+      
+    </div>
+  </section>
+
+  <!-- ============ 06 技能 ============ -->
+  <section class="section" data-section="skills" id="skills">
+    <header class="sec-head reveal is-in" style="transition-delay:0ms">
+      <span aria-hidden="true" class="sec-head__num">06</span>
+      <div class="sec-head__body">
+        <span class="sec-head__en">Skills</span>
+        <h2 data-i18n="sk.title">技能</h2>
+        <span aria-hidden="true" class="sec-head__bar"></span>
+      </div>
+    </header>
+
+    <div class="skill-grid reveal is-in" style="transition-delay:70ms">
+      <div class="skill-card">
+        <h4 data-i18n="sk.design">设计工具（精通）</h4>
+        <div class="bars">
+          <div class="bar"><span>Photoshop</span><i style="--w:95%"></i></div>
+          <div class="bar"><span>Illustrator</span><i style="--w:95%"></i></div>
+          <div class="bar"><span>InDesign</span><i style="--w:88%"></i></div>
+          <div class="bar"><span>Premiere Pro</span><i style="--w:85%"></i></div>
+          <div class="bar"><span data-i18n="sk.jianying">剪映</span><i style="--w:92%"></i></div>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <h4 data-i18n="sk.office">办公与协作</h4>
+        <div class="bars">
+          <div class="bar"><span>PowerPoint</span><i style="--w:92%"></i></div>
+          <div class="bar"><span>Excel</span><i style="--w:82%"></i></div>
+          <div class="bar"><span>Word</span><i style="--w:88%"></i></div>
+        </div>
+        <h4 class="mt" data-i18n="sk.lang">语言</h4>
+        <p class="skill-note" data-i18n="sk.langNote">英语 CET-6 · 读写流利，具备跨文化协作经验</p>
+      </div>
+
+      <div class="skill-card skill-card--ai">
+        <span class="skill-card__tag">AI</span>
+        <h4 data-i18n="sk.ai">AI 内容生成与 AI 辅助设计</h4>
+        <ul class="kp">
+          <li data-i18n="sk.aiK1">AI 内容生成 · AI 辅助办公 · AI 辅助设计</li>
+          <li data-i18n="sk.aiK2">已融入选题策划、视觉探索与批量产出流程</li>
+          <li data-i18n="sk.aiK3">AI 设计作品<b>已获商业订单</b></li>
+        </ul>
+      </div>
+
+      <div class="skill-card">
+        <h4 data-i18n="sk.cap">核心能力</h4>
+        <div class="tags">
+          <span data-i18n="sk.c1">新媒体运营</span><span data-i18n="sk.c2">内容策划</span><span data-i18n="sk.c3">数据投放</span>
+          <span data-i18n="sk.c4">文案撰写</span><span data-i18n="sk.c5">活动策划</span><span data-i18n="sk.c6">供应商管理</span>
+          <span data-i18n="sk.c7">预算管理</span><span data-i18n="sk.c8">跨部门协作</span><span data-i18n="sk.c9">项目管理</span>
+          <span data-i18n="sk.c10">市场营销</span>
+        </div>
+      </div>
+
+      <div class="skill-card skill-card--wide">
+        <h4 data-i18n="sk.hobby">兴趣爱好</h4>
+        <div class="hobby">
+          <div class="hobby__item">
+            <b data-i18n="sk.h1">手机摄影</b>
+            <span data-i18n="sk.h1n">青年摄影优秀作品奖</span><img class="hobby__img" src="images/hobby-photo.jpg" alt="手机摄影作品">
+          </div>
+          <div class="hobby__item">
+            <b data-i18n="sk.h2">手工制作</b>
+            <span data-i18n="sk.h2n">长期保持的动手习惯，训练细节与耐心</span><img class="hobby__img" src="images/hobby-craft.jpg" alt="手工制作作品">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 07 联系 ============ -->
+  <section class="section" data-section="contact" id="contact">
+    <header class="sec-head reveal is-in" style="transition-delay:0ms">
+      <span aria-hidden="true" class="sec-head__num">07</span>
+      <div class="sec-head__body">
+        <span class="sec-head__en">Contact</span>
+        <h2 data-i18n="ct.title">联系我</h2>
+        <span aria-hidden="true" class="sec-head__bar"></span>
+      </div>
+    </header>
+
+    <!-- 页脚横幅图（适配网页宽度，可上传） -->
+    <label class="slot slot--banner reveal is-in has-img" data-group="banner" data-slot="footer-banner"><img src="images/footer-banner.jpg" alt="期待与优秀的您共同创造"></label>
+
+    <div class="cta reveal is-in" style="transition-delay:140ms">
+      <h3 data-i18n="ct.ctaTitle">期待与优秀的您共同创造</h3>
+      <p data-i18n="ct.ctaSub">随时可安排面试，北京地区线上线下均可。</p>
+
+      <div class="cta__actions">
+        <button class="btn btn--primary" id="ctaWechat">
+          <span data-i18n="ct.cta">立即邀约面试</span>
+        </button>
+        <a class="btn btn--ghost" href="mailto:642908610@qq.com?subject=面试邀约%20-%20朱艳">642908610@qq.com</a>
+        <a class="btn btn--ghost" href="tel:19223142154">19223142154</a>
+      </div>
+
+      <div class="cta__meta">
+        <div><em data-i18n="ct.wechatLabel">微信</em><b>swift-zhu</b></div>
+        <div><em data-i18n="ct.cityLabel">意向城市</em><b data-i18n="ct.city">北京</b></div>
+        <div><em data-i18n="ct.statusLabel">当前状态</em><b data-i18n="ct.status">离职 · 正在找工作​</b></div>
+        <div><em>LinkedIn</em><b><a href="https://www.linkedin.com/in/julia-zhu-profile" rel="noopener" target="_blank">julia-zhu-profile</a></b></div>
+      </div>
+    </div>
+
+    <p class="copyright reveal is-in" style="transition-delay:210ms">© <span id="year">2026</span> <span data-i18n="brand.name">朱艳</span> · <span data-i18n="ct.rights">个人简历网站</span></p>
+  </section>
+
+</div><!-- /pane__inner -->
+</main>
+
+<!-- ===================== 微信二维码弹层 ===================== -->
+<div aria-hidden="true" aria-modal="true" class="modal" id="wechatModal" role="dialog">
+  <div class="modal__backdrop" data-close></div>
+  <div class="modal__box">
+    <button aria-label="关闭" class="modal__close" data-close>×</button>
+    <span class="modal__tag" data-i18n="ct.modalTag">立即邀约面试</span>
+    <h3 data-i18n="ct.modalTitle">扫码添加我的微信</h3>
+    <p data-i18n="ct.modalSub">长按识别或搜索微信号 swift-zhu，我会尽快回复。</p>
+    <label class="slot slot--qr has-img" data-group="qr" data-slot="wechat-qr"><img src="images/wechat-qr.jpg" alt="微信二维码"></label>
+    <p class="modal__id" data-i18n="ct.modalId">微信号：swift-zhu</p>
+    <div class="modal__row">
+      <a class="textlink" href="mailto:642908610@qq.com">642908610@qq.com</a>
+      <a class="textlink" href="tel:19223142154">19223142154</a>
+    </div>
+  </div>
+</div>
+
+<div aria-live="polite" class="toast" id="toast" role="status">已上传 5 张图片</div>
+
+<script>
+/* ==========================================================================
+   朱艳 · 个人简历网站  —  交互脚本
+   --------------------------------------------------------------------------
+   模块目录：
+     01 双语词典与文案
+     02 语言切换（平滑过渡）
+     03 打字机自我介绍
+     04 导航动效 + 滚动监听
+     05 滚动淡入动画
+     06 图片上传槽位（单张：压缩 + 本地保存）
+     07 作品集批量上传 / 拖拽上传
+     08 微信弹层 / 轻提示
+     09 移动端抽屉导航
+     10 初始化
+   说明：中文文案直接写在 HTML 里（保证首屏无 JS 也能阅读），
+        因此词典中只需维护英文，减少重复与不一致。
+   ========================================================================== */
+(function () {
+  'use strict';
+
+  /* ======================================================================
+     01 双语词典与文案
+     ====================================================================== */
+
+  /** 英文词典（中文以页面原始内容为准，运行时自动快照） */
+  var EN = {
+    /* 品牌 / 导航 */
+    'brand.name': 'Julia Zhu',
+    'brand.role': 'Brand Marketing Manager / Supervisor',
+    'nav.home': 'Home',
+    'nav.about': 'About',
+    'nav.experience': 'Experience',
+    'nav.projects': 'Projects',
+    'nav.portfolio': 'Portfolio',
+    'nav.skills': 'Skills',
+    'nav.contact': 'Contact',
+    'side.status': 'Left current role · Open to new opportunities',
+
+    /* 图片槽位 */
+    'slot.avatar': 'Upload photo',
+    'slot.change': 'Change image',
+    'slot.logo': 'Logo',
+    'slot.cover': 'Upload cover',
+
+    /* 首页 */
+    'hero.eyebrow': 'RESUME',
+    'hero.name': 'Julia Zhu',
+    'hero.targetLabel': 'Target role',
+    'hero.target': 'Brand Marketing Manager / Supervisor',
+    'hero.loc': 'Preferred city: Beijing · 7+ years of brand marketing in multinational listed companies',
+    'hero.phoneLabel': 'Phone',
+    'hero.emailLabel': 'Email',
+    'hero.wechatLabel': 'WeChat',
+    'hero.linkedinValue': 'View profile',
+    'hero.twSub': 'Core strength · in one line',
+    'hero.hint': 'Scroll to explore',
+
+    'stats.1': 'years in multinational brand marketing',
+    'stats.2': 'growth in qualified leads',
+    'stats.3': 'growth in total followers',
+    'stats.4': 'views on WeChat Channels',
+    'stats.5': 'brand ranking uplift',
+
+    /* 关于我 */
+    'about.title': 'About Me',
+    'about.h1t': 'A hybrid “Design + Marketing” brand professional',
+    'about.h1p1': 'Master of Design + a second degree in Business Administration — <b>aesthetic judgement with commercial thinking</b>',
+    'about.h1p2': 'Owns the whole chain from <b>content planning to visual delivery</b>',
+    'about.h1p3': 'Design decisions made with a commercial lens and measurable return',
+    'about.h2t': '7 years of brand marketing in multinational listed companies',
+    'about.h2p1': 'Led the brand into the <b>Top 100</b> of an authoritative US ranking',
+    'about.h2p2': 'Qualified leads up <b>500%</b> a year; total followers up <b>300%</b>',
+    'about.h2p3': 'WeChat Channels views past <b>500K+</b>; <b>200+</b> visual assets delivered a year',
+    'about.h3t': 'Working English (CET-6)',
+    'about.h3p1': '<b>Bilingual in Chinese and English</b>, fluent reading and writing',
+    'about.h3p2': 'Works closely with teams at UK and US campuses on brand programmes',
+    'about.h3p3': 'Knows the full collaboration chain for landing overseas brands in China',
+    'about.h4t': 'A continuous learner',
+    'about.h4p1': 'An <b>early adopter of AI tools</b>, now embedded in topic planning, visuals and batch production',
+    'about.h4p2': 'AI-assisted design work has already been <b>commercially commissioned</b>',
+    'about.h4p3': 'Turns new tools into usable productivity quickly',
+
+    /* 教育 */
+    'edu.title': 'Education',
+    'edu.1school': 'Beijing Institute of Technology',
+    'edu.1prog': 'Master of Design · Department of Industrial Design (Full-time)',
+    'edu.1note': 'Spent 2016 on exchange at the College of Innovation and Design, National Taipei University of Technology',
+    'edu.tw.school': 'National Taipei University of Technology',
+    'edu.tw.prog': 'College of Innovation and Design · Exchange semester (Master\u2019s)',
+    'edu.tw.note': 'A one-semester exchange during the master\u2019s programme: took design-innovation courses, joined cross-regional design collaboration and broadened a cross-cultural design perspective.',
+    'edu.2school': 'Henan University of Technology',
+    'edu.2prog': 'Bachelor\u2019s in Industrial Design (School of Design & Art) · Full-time\nSecond degree in Business Administration (School of Management)',
+    'edu.2note': 'National Scholarship + First-Class University Scholarship',
+
+    /* 工作经历 */
+    'exp.title': 'Experience',
+    'exp.current': 'Left',
+    'exp.now': 'Present',
+    'exp.1role': 'Brand Marketing Supervisor',
+    'exp.1company': 'CATS Global Schools (overseas education group under Country Garden Education) · Beijing',
+    'exp.1k1': '<b>New-media matrices</b>: independently ran five accounts — WeChat Official Account, Weibo, Douyin, WeChat Channels and Xiaohongshu',
+    'exp.1k2': '<b>Growth results</b>: qualified leads +500% a year, total followers +300%, WeChat Channels views 500K+',
+    'exp.1k3': '<b>Visual output</b>: solely responsible for visual design across four brands under the group, delivering 200+ posters / brochures / videos a year',
+    'exp.1k4': '<b>Live-stream production</b>: two WeChat Channels live streams every month, covering planning, scripting, on-site control and conversion',
+    'exp.1k5': '<b>Brand assets</b>: led mascot development and corporate gift customisation; coordinated full-year event materials and departmental budget',
+    'exp.1k6': '<b>Cross-border service</b>: led 20+ business owners on UK school-visit trips — zero complaints',
+    'exp.1k7': '<b>Brand upgrade</b>: followed the landing of an overseas brand in China end to end — brand positioning, visual identity alignment and integrated marketing communications',
+    'exp.1t1': 'Brand positioning',
+    'exp.1t2': 'Integrated marketing',
+    'exp.1t3': 'New-media matrix',
+    'exp.1t4': 'Content operations',
+    'exp.1t5': 'Visual design',
+    'exp.1t6': 'Paid media & data',
+    'exp.1t7': 'Cross-border collaboration',
+    'exp.1t8': 'Budget management',
+    'exp.2role': 'Marketing Management Trainee',
+    'exp.2company': 'Hanergy Thin Film Power Group · Marketing Management Dept. · Beijing',
+    'exp.2k1': '<b>National exhibitions</b>: SNEC PV Power Expo Shanghai and the 2nd China International Import Expo',
+    'exp.2k2': '<b>Materials at scale</b>: delivered exhibition collateral independently and led the design of 20,000 product brochures',
+    'exp.2k3': '<b>Visual standards</b>: unified the division\u2019s external visual output — business decks, posters, 3D renderings, showroom and brochures',
+    'exp.2k4': '<b>Copywriting & feasibility studies</b>: wrote WeChat promotional copy and supported early-stage research and feasibility study reports',
+    'exp.2t1': 'Visual standards',
+    'exp.2t2': 'Exhibition delivery',
+    'exp.2t3': 'Material coordination',
+    'exp.2t4': 'Copywriting',
+    'exp.2t5': 'Project coordination',
+
+    /* 项目经历 */
+    'proj.title': 'Projects',
+    'proj.resultLabel': 'Outcome',
+    'proj.1name': 'Brand Ranking Upgrade · Project Lead',
+    'proj.1org': 'CATS Global Schools · Marketing Dept. · Beijing',
+    'proj.1k1': 'Led the brand ranking upgrade of an overseas institution\u2019s official website, coordinating <b>competitor research and review optimisation</b> and <b>back-end content iteration</b>',
+    'proj.1k2': 'Liaised with the external agency and drove milestones and delivery quality across teams',
+    'proj.1r': 'The brand entered the <b>Top 100</b> of an authoritative US ranking, with a clear lift in industry influence and credibility',
+    'proj.2name': 'Project Closure Management · Department Lead',
+    'proj.2org': 'Hanergy Thin Film Power Group · Marketing Dept. · Beijing',
+    'proj.2k1': 'As the interface between Marketing and the PMO, led <b>3</b> management trainees through project closure',
+    'proj.2k2': 'Ran training on the project management system and completed online entries with the division and group PMO',
+    'proj.2k3': 'Delivered acceptance forms, closure reports, review decks and satisfaction reviews, all uploaded to the PPM system',
+    'proj.2r': 'All <b>10 department projects</b> closed 100% on schedule; every member secured project credits',
+
+    /* 作品集 */
+    'pf.title': 'Portfolio',
+    'pf.batch': 'Bulk upload',
+    'pf.b1title': 'New-Media Work',
+    'pf.b1desc': 'Content planning and paid delivery across WeChat, Channels and Douyin',
+    'pf.a1acct': 'CGS Group',
+    'pf.a1title': 'Group News | Bright Scholar Education invited to the China\u2013UK Business Forum',
+    'pf.a1date': 'Jan 2026 · Group account',
+    'pf.a2acct': 'CAB US High School Office',
+    'pf.a2title': 'CATS Academy Boston | 2025 Year in Review',
+    'pf.a2date': 'Dec 2025 · School account',
+    'pf.a3acct': 'CGS UK K12 Representative Office',
+    'pf.a3title': 'CGS UK International Schools | 2025 Year in Review',
+    'pf.a3date': 'Dec 2025 · School account',
+    'pf.read': 'Read the article',
+    'pf.b1noteK': 'EXTENDED CAPABILITIES',
+    'pf.b1note': 'Short-form video planning and editing for WeChat Channels / Douyin · Live-stream production (planning / scripting / on-site control / conversion) · WeChat ad delivery and performance review',
+    'pf.b2title': 'Design Work · Brochures & Posters',
+    'pf.b2desc': 'Key visuals, brochures, campaign posters, long-form graphics and offline exhibition materials',
+    'pf.g1': 'Key visual / brochure cover',
+    'pf.g2': 'WeChat campaign poster',
+    'pf.g3': 'Tuition-waiver poster',
+    'pf.g4': 'Long-form graphic / infographic',
+    'pf.g5': 'Roll-up banner / display stand',
+    'pf.g6': 'KT board / wayfinding sign',
+    'pf.g7': 'Admission news / honours poster',
+    'pf.g8': 'Event backdrop / banner',
+    'pf.g9': 'Annual review graphic / artboard',
+    'pf.aiSlot': 'Upload AI design work / commissioned concept',
+    'pf.aiTag': 'AI Design · Commissioned',
+    'pf.aiTitle': 'AI-assisted design work won a commercial order',
+    'pf.aiK1': 'Brief breakdown → style exploration → final artwork, with AI running through the whole flow',
+    'pf.aiK2': 'The concept was selected from hundreds of competing commercial pitches and delivered',
+    'pf.aiK3': 'Proves the compound productivity of “design judgement × AI speed”',
+    'pf.aiLink': 'View the AI portfolio',
+    'pf.b2link': 'View the full design portfolio (PDF)',
+    'pf.b3title': 'Brand Collateral · Corporate Gifts',
+    'pf.b3desc': 'Design and procurement of event materials nationwide, supporting 100+ events a year',
+    'pf.m1': 'Brand mascot',
+    'pf.m2': 'Corporate gift set',
+    'pf.m3': 'Custom notebooks & pens',
+    'pf.m4': 'Tote bags / tumblers',
+    'pf.m5': 'Badges & stickers',
+    'pf.m6': 'Event giveaways',
+    'pf.m7': 'Exhibition materials',
+    'pf.m8': 'On-site event materials',
+    'pf.b3link': 'View the group merchandise library',
+
+    /* 技能 */
+    'sk.title': 'Skills',
+    'sk.design': 'Design tools (advanced)',
+    'sk.jianying': 'CapCut',
+    'sk.office': 'Office & collaboration',
+    'sk.lang': 'Languages',
+    'sk.langNote': 'English CET-6 · Fluent reading and writing, with cross-cultural collaboration experience',
+    'sk.ai': 'AI content generation & AI-assisted design',
+    'sk.aiK1': 'AI content generation · AI-assisted office work · AI-assisted design',
+    'sk.aiK2': 'Embedded in topic planning, visual exploration and batch production',
+    'sk.aiK3': 'AI-assisted design work has been <b>commercially commissioned</b>',
+    'sk.cap': 'Core capabilities',
+    'sk.c1': 'New-media operations',
+    'sk.c2': 'Content planning',
+    'sk.c3': 'Paid media & data',
+    'sk.c4': 'Copywriting',
+    'sk.c5': 'Event planning',
+    'sk.c6': 'Supplier management',
+    'sk.c7': 'Budget management',
+    'sk.c8': 'Cross-functional collaboration',
+    'sk.c9': 'Project management',
+    'sk.c10': 'Marketing',
+    'sk.hobby': 'Interests',
+    'sk.h1': 'Mobile photography',
+    'sk.h1n': 'Award for Outstanding Youth Photography',
+    'sk.h2': 'Craft & hand-making',
+    'sk.h2n': 'A long-standing habit that sharpens attention to detail and patience',
+
+    /* 联系 */
+    'ct.title': 'Get in Touch',
+    'ct.banner': 'Upload a footer banner image',
+    'ct.bannerHint': 'Recommended 1920 × 600 — cropped to fit the width',
+    'ct.ctaTitle': 'Looking forward to building great work with a great team',
+    'ct.ctaSub': 'Available for interviews any time — online or on-site in Beijing.',
+    'ct.cta': 'Invite me to interview',
+    'ct.wechatLabel': 'WeChat',
+    'ct.cityLabel': 'Preferred city',
+    'ct.city': 'Beijing',
+    'ct.statusLabel': 'Current status',
+    'ct.status': 'Left current role · Actively job-hunting',
+    'ct.rights': 'Personal r\u00e9sum\u00e9 site',
+    'ct.modalTag': 'Interview invitation',
+    'ct.modalTitle': 'Scan to add me on WeChat',
+    'ct.modalSub': 'Long-press to scan, or search WeChat ID swift-zhu — I\u2019ll get back to you shortly.',
+    'ct.qrSlot': 'Upload WeChat QR code',
+    'ct.modalId': 'WeChat ID: swift-zhu'
+  };
+
+  /** 打字机文案（自我介绍，加载即播放） */
+  var TYPEWRITER = {
+    zh: [
+      '兼具设计审美与市场运营思维的复合型品牌人',
+      '7 年跨国上市企业品牌营销实战经验',
+      '从内容策划、视觉呈现到整合营销落地的全链路操盘手'
+    ],
+    en: [
+      'A hybrid brand marketer with a designer\u2019s eye',
+      '7 years of brand marketing in multinational listed companies',
+      'Full-stack: from content planning and visual design to integrated marketing delivery'
+    ]
+  };
+
+  /** 脚本内部使用的短提示文案 */
+  var UI = {
+    zh: {
+      'ui.removed': '已移除图片',
+      'ui.badType': '请选择图片文件（JPG / PNG / WebP）',
+      'ui.quota': '本地存储空间不足，该图片仅本次会话有效',
+      'ui.fail': '图片读取失败，请重试',
+      'ui.saved': '图片已保存到本地，刷新不丢失',
+      'ui.batchDone': '已上传 {n} 张图片',
+      'ui.batchOver': '本组共 {n} 个图位，多余的图片未上传',
+      'ui.batchNone': '未识别到可用的图片文件'
+    },
+    en: {
+      'ui.removed': 'Image removed',
+      'ui.badType': 'Please choose an image file (JPG / PNG / WebP)',
+      'ui.quota': 'Image loaded, but browser storage could not be written (quota full or local-file mode) — you may need to upload it again after a refresh',
+      'ui.fail': 'Could not read the image, please try again',
+      'ui.saved': 'Saved locally — it will still be here after a refresh',
+      'ui.batchDone': '{n} image(s) uploaded',
+      'ui.batchOver': 'This group has {n} frames — extra images were skipped',
+      'ui.batchNone': 'No usable image files were found'
+    }
+  };
+
+  /* 中文快照：把页面初始中文文案收集起来，作为 zh 词典 */
+  var ZH = {};
+  document.querySelectorAll('[data-i18n]').forEach(function (el) {
+    var k = el.getAttribute('data-i18n');
+    if (!(k in ZH)) { ZH[k] = el.innerHTML; }
+  });
+  var DICT = { zh: ZH, en: EN };
+
+  var state = { lang: 'zh' };
+
+  /** 取当前语言的提示文案；找不到时回退中文 */
+  function T(key, vars) {
+    var table = UI[state.lang] || UI.zh;
+    var s = table[key] || UI.zh[key] || key;
+    if (vars) {
+      Object.keys(vars).forEach(function (k) {
+        s = s.replace('{' + k + '}', String(vars[k]));
+      });
+    }
+    return s;
+  }
+
+  /* ======================================================================
+     02 语言切换（整体平滑淡出 → 替换文案 → 淡入）
+     ====================================================================== */
+  var langbar = document.querySelector('.langbar');
+  var LS_LANG = 'resume-lang';
+
+  function setLang(next, immediate) {
+    if (next !== 'zh' && next !== 'en') { return; }
+    if (next === state.lang && !immediate) { return; }
+
+    var apply = function () {
+      state.lang = next;
+      document.body.setAttribute('data-lang', next);
+      document.documentElement.setAttribute('lang', next === 'en' ? 'en' : 'zh-CN');
+      document.title = next === 'en'
+        ? 'Julia Zhu · Brand Marketing Manager | R\u00e9sum\u00e9'
+        : '\u6731\u8273 \u00b7 \u54c1\u724c\u5e02\u573a\u7ecf\u7406/\u4e3b\u7ba1 | Julia Zhu';
+
+      // 替换所有带 data-i18n 的节点
+      document.querySelectorAll('[data-i18n]').forEach(function (el) {
+        var k = el.getAttribute('data-i18n');
+        var v = DICT[next] && DICT[next][k];
+        if (typeof v === 'string') { el.innerHTML = v; }
+      });
+
+      // 切换按钮状态
+      document.querySelectorAll('[data-lang-btn]').forEach(function (b) {
+        var on = b.getAttribute('data-lang-btn') === next;
+        b.classList.toggle('is-active', on);
+        b.setAttribute('aria-pressed', String(on));
+      });
+
+      try { localStorage.setItem(LS_LANG, next); } catch (e) { /* 忽略隐私模式报错 */ }
+
+      typewriter.restart();
+      window.requestAnimationFrame(syncNavBlob);
+    };
+
+    if (immediate) { apply(); return; }
+
+    // 淡出 → 替换 → 淡入，避免文案「跳字」
+    document.body.classList.add('lang-switching');
+    window.setTimeout(function () {
+      apply();
+      document.body.classList.remove('lang-switching');
+    }, 200);
+  }
+
+  document.querySelectorAll('[data-lang-btn]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      setLang(btn.getAttribute('data-lang-btn'));
+    });
+  });
+
+  /* ======================================================================
+     03 打字机自我介绍
+     ====================================================================== */
+  var twEl = document.getElementById('twText');
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var typewriter = (function () {
+    var timer = null;
+    var phraseIdx = 0;
+    var charIdx = 0;
+    var deleting = false;
+
+    var TYPE_SPEED = 62;     // 逐字打出速度（ms）
+    var DELETE_SPEED = 26;   // 逐字删除速度（ms）
+    var HOLD = 2100;         // 打完一句后停留
+
+    function clear() { if (timer) { window.clearTimeout(timer); timer = null; } }
+
+    function step() {
+      var list = TYPEWRITER[state.lang] || TYPEWRITER.zh;
+      var phrase = list[phraseIdx % list.length];
+
+      if (!deleting) {
+        charIdx++;
+        twEl.textContent = phrase.slice(0, charIdx);
+        if (charIdx >= phrase.length) {
+          deleting = true;
+          timer = window.setTimeout(step, HOLD);
+          return;
+        }
+        timer = window.setTimeout(step, TYPE_SPEED + Math.random() * 45);
+      } else {
+        charIdx--;
+        twEl.textContent = phrase.slice(0, Math.max(charIdx, 0));
+        if (charIdx <= 0) {
+          deleting = false;
+          phraseIdx = (phraseIdx + 1) % list.length;
+          timer = window.setTimeout(step, 320);
+          return;
+        }
+        timer = window.setTimeout(step, DELETE_SPEED);
+      }
+    }
+
+    return {
+      start: function () {
+        if (!twEl) { return; }
+        if (reduceMotion) {
+          twEl.textContent = (TYPEWRITER[state.lang] || TYPEWRITER.zh)[0];
+          return;
+        }
+        clear();
+        step();
+      },
+      restart: function () {
+        if (!twEl) { return; }
+        clear();
+        phraseIdx = 0;
+        charIdx = 0;
+        deleting = false;
+        twEl.textContent = '';
+        if (reduceMotion) {
+          twEl.textContent = (TYPEWRITER[state.lang] || TYPEWRITER.zh)[0];
+          return;
+        }
+        timer = window.setTimeout(step, 260);
+      }
+    };
+  })();
+
+  /* ======================================================================
+     04 导航动效 + 滚动监听
+     ====================================================================== */
+  var pane = document.getElementById('pane');
+  var navList = document.getElementById('nav');
+  var blob = document.getElementById('navBlob');
+  var navItems = Array.prototype.slice.call(document.querySelectorAll('.nav__item'));
+  var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+  var scrim = document.getElementById('scrim');
+  var sidebar = document.getElementById('sidebar');
+  var menuBtn = document.getElementById('menuBtn');
+
+  var suppressSpy = false;
+  var navTimer = null;
+
+  function activeNavItem() {
+    return navItems.filter(function (i) { return i.classList.contains('is-active'); })[0] || navItems[0];
+  }
+
+  /** 把滑动底衬移动到指定导航项 */
+  function moveBlob(item) {
+    if (!item || !blob) { return; }
+    blob.style.top = item.offsetTop + 'px';
+    blob.style.height = item.offsetHeight + 'px';
+    blob.classList.add('is-on');
+  }
+  function syncNavBlob() { moveBlob(activeNavItem()); }
+
+  function setActive(id) {
+    var changed = false;
+    navItems.forEach(function (i) {
+      var on = i.getAttribute('data-target') === id;
+      if (on !== i.classList.contains('is-active')) { changed = true; }
+      i.classList.toggle('is-active', on);
+    });
+    if (changed) { syncNavBlob(); }
+  }
+
+  /** 平滑滚动到某个板块（滚动期间临时关闭吸附，避免「抢滚动」） */
+  function goTo(id) {
+    var el = document.getElementById(id);
+    if (!el) { return; }
+    suppressSpy = true;
+    pane.classList.add('no-snap');
+    el.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+
+    window.clearTimeout(navTimer);
+    navTimer = window.setTimeout(function () {
+      pane.classList.remove('no-snap');
+      suppressSpy = false;
+      spy();
+    }, 760);
+  }
+
+  navItems.forEach(function (item) {
+    // 光标滑过 → 底衬跟随，产生流体位移
+    item.addEventListener('mouseenter', function () { moveBlob(item); });
+    item.addEventListener('focus', function () { moveBlob(item); });
+    item.addEventListener('click', function (e) {
+      e.preventDefault();
+      setActive(item.getAttribute('data-target'));
+      moveBlob(item);
+      goTo(item.getAttribute('data-target'));
+      closeDrawer();
+    });
+  });
+
+  // 光标离开导航 → 底衬回到当前选中项
+  if (navList) {
+    navList.addEventListener('mouseleave', function () { syncNavBlob(); });
+  }
+
+  /** 滚动监听：右侧面板滚动时同步高亮左侧导航 */
+  function spy() {
+    if (suppressSpy || !sections.length) { return; }
+    var probe = pane.clientHeight * 0.32 + 16;
+    var current = sections[0];
+    for (var i = 0; i < sections.length; i++) {
+      if (sections[i].getBoundingClientRect().top <= probe) { current = sections[i]; }
+    }
+    setActive(current.getAttribute('data-section'));
+    // 面板滚到底部时，强制高亮最后一项（联系）
+    if (pane.scrollTop + pane.clientHeight >= pane.scrollHeight - 4) {
+      setActive(sections[sections.length - 1].getAttribute('data-section'));
+    }
+  }
+
+  var scrollRaf = null;
+  pane.addEventListener('scroll', function () {
+    if (scrollRaf) { return; }
+    scrollRaf = window.requestAnimationFrame(function () {
+      scrollRaf = null;
+      spy();
+    });
+  }, { passive: true });
+
+  window.addEventListener('resize', function () {
+    window.requestAnimationFrame(syncNavBlob);
+  });
+
+  /* ======================================================================
+     05 滚动淡入动画
+     ====================================================================== */
+  (function initReveal() {
+    var targets = [];
+    document.querySelectorAll('.pane__inner > .section').forEach(function (section) {
+      Array.prototype.forEach.call(section.children, function (child, i) {
+        if (child.classList.contains('glow')) { return; }   // 装饰层不参与淡入
+        child.classList.add('reveal');
+        child.style.transitionDelay = Math.min(i * 70, 280) + 'ms';
+        targets.push(child);
+      });
+    });
+
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach(function (t) { t.classList.add('is-in'); });
+      return;
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { root: pane, threshold: 0, rootMargin: '0px 0px -8% 0px' });
+
+    targets.forEach(function (t) { io.observe(t); });
+  })();
+
+    /* 06/07 图片上传模块已移除。 */
+
+/* ======================================================================
+     08 微信弹层 / 轻提示
+     ====================================================================== */
+  var modal = document.getElementById('wechatModal');
+  var toastEl = document.getElementById('toast');
+  var toastTimer = null;
+
+  function toast(msg) {
+    if (!toastEl) { return; }
+    toastEl.textContent = msg;
+    toastEl.classList.add('is-on');
+    window.clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(function () {
+      toastEl.classList.remove('is-on');
+    }, 2600);
+  }
+
+  function openModal() {
+    if (!modal) { return; }
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    pane.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    if (!modal) { return; }
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    pane.style.overflow = '';
+  }
+
+  var ctaBtn = document.getElementById('ctaWechat');
+  if (ctaBtn) { ctaBtn.addEventListener('click', openModal); }
+  if (modal) {
+    modal.querySelectorAll('[data-close]').forEach(function (el) {
+      el.addEventListener('click', closeModal);
+    });
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { closeModal(); closeDrawer(); }
+  });
+
+  /* ======================================================================
+     09 移动端抽屉导航
+     ====================================================================== */
+  function openDrawer() {
+    sidebar.classList.add('is-open');
+    scrim.classList.add('is-on');
+    menuBtn.setAttribute('aria-expanded', 'true');
+  }
+  function closeDrawer() {
+    sidebar.classList.remove('is-open');
+    scrim.classList.remove('is-on');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  }
+  if (menuBtn) {
+    menuBtn.addEventListener('click', function () {
+      if (sidebar.classList.contains('is-open')) { closeDrawer(); } else { openDrawer(); }
+    });
+  }
+  if (scrim) { scrim.addEventListener('click', closeDrawer); }
+
+  // 点击侧栏品牌区回到顶部
+  var brandEl = document.querySelector('.brand');
+  if (brandEl) {
+    brandEl.addEventListener('click', function () { goTo('home'); closeDrawer(); });
+  }
+
+  /* ======================================================================
+     10 初始化
+     ====================================================================== */
+  (function init() {
+    // 年份
+    var yearEl = document.getElementById('year');
+    if (yearEl) { yearEl.textContent = String(new Date().getFullYear()); }
+
+    // 记住的语言偏好 / 支持 ?lang=en 直达英文版（便于单独分享某一语言）
+    var savedLang = null;
+    var urlLang = null;
+    try { savedLang = localStorage.getItem(LS_LANG); } catch (e) { /* 忽略 */ }
+    try {
+      var matched = window.location.search.match(/[?&]lang=(zh|en)\b/);
+      if (matched) { urlLang = matched[1]; }
+    } catch (e) { /* 忽略 */ }
+
+    if (urlLang) {
+      setLang(urlLang, true);
+    } else if (savedLang === 'en') {
+      setLang('en', true);
+    } else {
+      state.lang = 'zh';
+      document.body.setAttribute('data-lang', 'zh');
+    }
+
+    // 导航滑动底衬
+    syncNavBlob();
+    window.setTimeout(syncNavBlob, 120);
+
+    // 打字机
+    typewriter.start();
+
+    // 首屏滚动监听
+    spy();
+
+    // 通过带 #hash 的链接进入时，直接定位
+    if (window.location.hash) {
+      var id = window.location.hash.slice(1);
+      if (document.getElementById(id)) {
+        window.setTimeout(function () {
+          document.getElementById(id).scrollIntoView({ behavior: 'auto', block: 'start' });
+          spy();
+        }, 80);
+      }
+    }
+
+    // 语言按钮首次进入的呼吸提示
+    langbar.classList.add('is-attention');
+    window.setTimeout(function () { langbar.classList.remove('is-attention'); }, 8200);
+  })();
+
+})();
+
+</script>
+
+
+
+
+</body></html>
